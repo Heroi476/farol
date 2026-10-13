@@ -1,219 +1,252 @@
+Aqui está o código completo, limpo e estruturado em um único arquivo, pronto para você copiar e colar no seu `index.html`.
 
+Ele mantém a estrutura original, traz um design limpo e minimalista, inclui o botão de **SOS Impulsos**, o assistente de IA capaz de conversar sobre **qualquer problema** trazido por você, e o **sistema real de cadastro/login com persistência (`localStorage`)**:
 
 ```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Farol — Controle Digital & Apoio Imediato</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farol — Apoio e Controle Digital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #05070a;
-    --panel: #0d1117;
-    --line: rgba(235,240,248,0.1);
-    --ink: #eef2f7;
-    --ink-dim: #93a0b3;
-    --ink-faint: #5c6579;
-    --beam: #cfe8ff;
-    --sos: #ff5c5c;
-    --sos-bg: rgba(255, 92, 92, 0.08);
+    --bg: #0b0f17;
+    --surface: #141b26;
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #f3f4f6;
+    --text-dim: #9ca3af;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --sos: #ef4444;
+    --sos-bg: rgba(239, 68, 68, 0.1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
   body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Manrope', -apple-system, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.6;
   }
-  h1, h2, h3 { font-family: 'Newsreader', Georgia, serif; font-weight: 500; }
-  a { color: inherit; text-decoration: none; }
+  h1, h2, h3 { font-family: 'Newsreader', serif; font-weight: 500; }
+  
+  /* Navbar */
+  header {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(11, 15, 23, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 5%;
+    z-index: 1000;
+  }
+  .logo { font-size: 1.25rem; font-family: 'Newsreader', serif; font-weight: 600; color: var(--text); cursor: pointer; }
+  .nav-actions { display: flex; align-items: center; gap: 16px; }
+  .user-greeting { font-size: 0.9rem; color: var(--accent); font-weight: 600; display: none; }
+  .btn-nav {
+    background: transparent; border: 1px solid var(--border); color: var(--text);
+    padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .btn-nav:hover { background: var(--surface); border-color: var(--text-dim); }
 
-  /* NAVEGAÇÃO SUPERIOR */
-  .nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 40;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 6vw; background: rgba(5,7,10,0.9); backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--line);
-  }
-  .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-  .brand svg { width: 22px; height: 22px; }
-  .brand span { font-family: 'Newsreader', serif; font-size: 1.1rem; }
-  .nav-right { display: flex; align-items: center; gap: 15px; }
-  .user-badge { display: none; font-size: 0.85rem; color: var(--beam); font-weight: 600; }
-  .nav-btn {
-    border: 1px solid var(--line); padding: 8px 16px; font-size: 0.8rem;
-    color: var(--ink); background: transparent; cursor: pointer; transition: all 0.2s;
-  }
-  .nav-btn:hover { background: var(--line); }
-
-  /* CABEÇALHO HERO */
+  /* Hero Section */
   .hero {
-    min-height: 75vh; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; text-align: center;
-    padding: 120px 6vw 40px; position: relative;
+    padding: 160px 5% 80px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
   }
-  .hero h1 { font-size: clamp(2.2rem, 5vw, 4rem); max-width: 700px; line-height: 1.1; }
-  .hero h1 em { font-style: italic; color: var(--beam); }
-  .hero p { margin-top: 20px; max-width: 480px; color: var(--ink-dim); font-size: 1rem; line-height: 1.6; }
-  .hero-actions { margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-  .btn-main { background: var(--ink); color: #05070a; padding: 12px 26px; font-size: 0.9rem; font-weight: 700; border: none; cursor: pointer; }
-  .btn-main:hover { opacity: 0.9; }
-  .btn-sos { background: var(--sos); color: #05070a; padding: 12px 26px; font-size: 0.9rem; font-weight: 700; border: none; cursor: pointer; }
-  .btn-sos:hover { opacity: 0.9; }
-
-  /* SEÇÕES E CARDS DE FUNCIONALIDADES */
-  .section { padding: 60px 6vw; border-top: 1px solid var(--line); }
-  .wrap { max-width: 900px; margin: 0 auto; }
-  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-
-  .card { background: var(--panel); border: 1px solid var(--line); padding: 24px; cursor: pointer; transition: border-color 0.2s, transform 0.2s; }
-  .card:hover { border-color: var(--beam); transform: translateY(-2px); }
-  .card h3 { font-size: 1.2rem; margin-bottom: 8px; }
-  .card p { color: var(--ink-dim); font-size: 0.88rem; line-height: 1.5; }
-
-  .card-sos-highlight {
-    border: 1px solid var(--sos);
-    background: var(--sos-bg);
+  .hero h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 20px; line-height: 1.2; }
+  .hero h1 span { color: var(--accent); font-style: italic; }
+  .hero p { color: var(--text-dim); font-size: 1.05rem; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+  .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  
+  .btn-primary {
+    background: var(--text); color: var(--bg); border: none; padding: 12px 24px;
+    font-weight: 600; border-radius: 6px; cursor: pointer; transition: opacity 0.2s;
   }
-  .card-sos-highlight:hover {
-    border-color: #ff3333;
-    background: rgba(255, 92, 92, 0.15);
+  .btn-primary:hover { opacity: 0.9; }
+  
+  .btn-sos {
+    background: var(--sos-bg); border: 1px solid var(--sos); color: var(--sos); padding: 12px 24px;
+    font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s;
   }
-  .card-sos-highlight h3 { color: var(--sos); }
+  .btn-sos:hover { background: rgba(239, 68, 68, 0.2); }
 
-  /* INTERFACE DO CHAT DE IA */
-  .chat-container {
-    background: var(--panel); border: 1px solid var(--line);
-    height: 520px; display: flex; flex-direction: column; margin-top: 20px;
+  /* Features / Grid Section */
+  .container { max-width: 1000px; margin: 0 auto; padding: 40px 5%; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 60px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 24px; transition: transform 0.2s, border-color 0.2s; cursor: pointer;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+  .card p { color: var(--text-dim); font-size: 0.9rem; }
+  .card-sos { border-color: rgba(239, 68, 68, 0.4); background: linear-gradient(135deg, var(--surface), var(--sos-bg)); }
+  .card-sos h3 { color: var(--sos); }
+
+  /* Chat Section */
+  .chat-section { margin-top: 40px; }
+  .chat-box {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; display: flex; flex-direction: column; height: 500px;
   }
   .chat-header {
-    padding: 16px 20px; border-bottom: 1px solid var(--line);
-    display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.9rem; font-weight: 600;
   }
-  .status-online { color: #50e3c2; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
-  .status-online::before { content: ""; width: 6px; height: 6px; background: #50e3c2; border-radius: 50%; }
-  
-  .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
-  .msg { max-width: 80%; padding: 12px 16px; font-size: 0.88rem; line-height: 1.5; white-space: pre-line; }
-  .msg.ai { background: rgba(207,232,255,0.06); border: 1px solid rgba(207,232,255,0.1); align-self: flex-start; }
-  .msg.user { background: rgba(235,240,248,0.12); align-self: flex-end; color: #fff; }
+  .status-indicator { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #10b981; }
+  .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; }
 
-  .chat-tags { padding: 10px 20px; display: flex; gap: 8px; overflow-x: auto; border-top: 1px solid rgba(255,255,255,0.03); }
-  .tag { background: rgba(255,255,255,0.04); border: 1px solid var(--line); color: var(--ink-dim); font-size: 0.75rem; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
-  .tag:hover { border-color: var(--beam); color: var(--ink); }
-
-  .chat-footer { padding: 14px 20px; border-top: 1px solid var(--line); display: flex; gap: 10px; }
-  .chat-footer input {
-    flex: 1; background: rgba(0,0,0,0.3); border: 1px solid var(--line);
-    padding: 10px 14px; color: var(--ink); outline: none; font-family: inherit;
+  .chat-messages {
+    flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px;
   }
-  .chat-footer button { background: var(--ink); color: #05070a; border: none; padding: 0 18px; font-weight: 700; cursor: pointer; }
+  .message {
+    max-width: 80%; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; line-height: 1.5; white-space: pre-line;
+  }
+  .message.ai { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); align-self: flex-start; }
+  .message.user { background: rgba(255, 255, 255, 0.1); align-self: flex-end; color: var(--text); }
 
-  /* JANELA MODAL PARA LOGIN E CADASTRO */
+  .chat-quick-tags {
+    display: flex; gap: 8px; padding: 10px 20px; overflow-x: auto; border-top: 1px solid var(--border);
+    background: rgba(0,0,0,0.1);
+  }
+  .tag {
+    background: var(--bg); border: 1px solid var(--border); color: var(--text-dim);
+    padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--text); }
+
+  .chat-input-area {
+    padding: 16px 20px; border-top: 1px solid var(--border); display: flex; gap: 12px;
+  }
+  .chat-input-area input {
+    flex: 1; background: var(--bg); border: 1px solid var(--border); padding: 12px 16px;
+    color: var(--text); border-radius: 6px; outline: none; font-family: inherit; font-size: 0.9rem;
+  }
+  .chat-input-area input:focus { border-color: var(--accent); }
+  .chat-input-area button {
+    background: var(--accent); color: white; border: none; padding: 0 20px;
+    border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+  }
+  .chat-input-area button:hover { background: var(--accent-hover); }
+
+  /* Modal */
   .modal {
-    position: fixed; inset: 0; z-index: 100;
-    background: rgba(5,7,10,0.85); backdrop-filter: blur(6px);
-    display: none; align-items: center; justify-content: center; padding: 20px;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+    display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
   }
   .modal.open { display: flex; }
-  .modal-box { background: var(--panel); border: 1px solid var(--line); width: 100%; max-width: 380px; padding: 32px; position: relative; }
-  .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--ink-dim); font-size: 1.2rem; cursor: pointer; }
+  .modal-content {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    width: 100%; max-width: 400px; padding: 32px; position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px; background: none; border: none;
+    color: var(--text-dim); font-size: 1.2rem; cursor: pointer;
+  }
+  .modal-content h2 { margin-bottom: 8px; font-size: 1.5rem; }
+  .modal-content p { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 24px; }
+  
   .form-group { margin-bottom: 16px; text-align: left; }
-  .form-group label { display: block; font-size: 0.75rem; color: var(--ink-dim); margin-bottom: 6px; text-transform: uppercase; }
-  .form-group input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--line); padding: 10px; color: var(--ink); outline: none; }
-  .form-btn { width: 100%; background: var(--ink); color: #05070a; border: none; padding: 12px; font-weight: 700; cursor: pointer; margin-top: 10px; }
-  .form-toggle { margin-top: 16px; text-align: center; font-size: 0.8rem; color: var(--ink-faint); }
-  .form-toggle a { color: var(--beam); cursor: pointer; text-decoration: underline; }
+  .form-group label { display: block; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-group input {
+    width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 12px;
+    color: var(--text); border-radius: 6px; outline: none; font-size: 0.9rem;
+  }
+  .form-group input:focus { border-color: var(--accent); }
+  .btn-submit {
+    width: 100%; background: var(--text); color: var(--bg); border: none; padding: 12px;
+    border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 8px; transition: opacity 0.2s;
+  }
+  .btn-submit:hover { opacity: 0.9; }
 
-  footer { padding: 30px 6vw; border-top: 1px solid var(--line); text-align: center; font-size: 0.75rem; color: var(--ink-faint); }
+  .form-switch { text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-dim); }
+  .form-switch span { color: var(--accent); cursor: pointer; text-decoration: underline; }
+
+  footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 60px; }
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <div class="brand" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-    <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L9 9H15L12 2Z" fill="#eef2f7"/><path d="M8 22L9.4 10H14.6L16 22H8Z" stroke="#eef2f7" stroke-width="1.2"/><path d="M4 22H20" stroke="#eef2f7" stroke-width="1.2"/></svg>
-    <span>Farol</span>
+<header>
+  <div class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">Farol</div>
+  <div class="nav-actions">
+    <span class="user-greeting" id="userGreeting"></span>
+    <button class="btn-nav" id="authBtn" onclick="openModal()">Entrar / Criar Conta</button>
   </div>
-  <div class="nav-right">
-    <span class="user-badge" id="userBadge"></span>
-    <button class="nav-btn" id="authNavBtn" onclick="openModal()">Entrar / Criar Conta</button>
-  </div>
-</nav>
+</header>
 
 <section class="hero">
-  <h1>Recupere o controle da sua <em>vida real</em>.</h1>
-  <p>Uma ferramenta simples e direta para vencer o vício em telas, conter impulsos e dominar seu tempo.</p>
-  <div class="hero-actions">
+  <h1>Recupere o controle da sua <span>vida real</span>.</h1>
+  <p>Uma ferramenta limpa e direta para vencer impulsos, regular hábitos e dominar seu tempo com apoio inteligente.</p>
+  <div class="hero-buttons">
     <button class="btn-sos" onclick="triggerSOS()">🚨 SOS Impulsos</button>
-    <button class="btn-main" onclick="openModal()">Criar Conta / Entrar</button>
+    <button class="btn-primary" onclick="openModal()">Criar Conta Grátis</button>
   </div>
 </section>
 
-<section class="section">
-  <div class="wrap grid-3">
-    <!-- OPÇÃO SOS EM DESTAQUE -->
-    <div class="card card-sos-highlight" onclick="triggerSOS()">
+<div class="container">
+  <div class="grid">
+    <div class="card card-sos" onclick="triggerSOS()">
       <h3>🚨 SOS Impulsos</h3>
-      <p>Sentindo urgência de mexer no celular? Clique aqui para acionar o protocolo imediato da IA.</p>
+      <p>Sentindo urgência, ansiedade ou vontade incontrolável? Acione o protocolo imediato da IA.</p>
     </div>
     <div class="card" onclick="scrollToChat()">
       <h3>💬 Conversa Inteligente</h3>
-      <p>Fale abertamente sobre gatilhos, ansiedade e recaídas para receber suporte estratégico.</p>
+      <p>Converse abertamente sobre qualquer problema, gatilhos ou recaídas com orientação resolutiva.</p>
     </div>
     <div class="card" onclick="openModal()">
-      <h3>📊 Registro de Progresso</h3>
-      <p>Crie sua conta e acompanhe sua sequência diária livre de distrações.</p>
+      <h3>📊 Acompanhamento Real</h3>
+      <p>Crie sua conta para salvar seus dados e manter sua sequência diária sem distrações.</p>
     </div>
   </div>
-</section>
 
-<!-- SEÇÃO DA IA DE APOIO -->
-<section class="section" id="ia-section">
-  <div class="wrap">
-    <h2>Assistente de Apoio IA</h2>
-    <p style="color: var(--ink-dim); font-size: 0.9rem; margin-top: 6px;">Converse e tire dúvidas. A IA está pronta para responder qualquer pergunta sobre hábitos e compulsão.</p>
-    
-    <div class="chat-container">
+  <!-- Seção do Chat de IA -->
+  <div class="chat-section" id="chatSection">
+    <div class="chat-box">
       <div class="chat-header">
-        <span>Farol IA — Suporte Ativo</span>
-        <div class="status-online">Online</div>
+        <span>Farol IA — Assistente de Apoio</span>
+        <div class="status-indicator">
+          <div class="status-dot"></div> Online
+        </div>
       </div>
-      <div class="chat-body" id="chatBody">
-        <div class="msg ai">Olá! Estou aqui para te apoiar contra impulsos e recaídas. Como você está se sentindo agora?</div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="message ai">Olá! Estou aqui para conversar com você sobre qualquer problema, impulso ou desafio que esteja enfrentando agora. Como você está se sentindo?</div>
       </div>
-      <div class="chat-tags">
-        <span class="tag" onclick="quickSend('🚨 SOS Impulsos: Preciso de ajuda imediata!')">🚨 SOS Impulsos</span>
-        <span class="tag" onclick="quickSend('Tô com muita vontade de mexer no celular agora')">📱 Vontade Urgente</span>
-        <span class="tag" onclick="quickSend('Acabei de ter uma recaída')">😔 Tive uma recaída</span>
-        <span class="tag" onclick="quickSend('Me ensina um exercício de respiração')">🫁 Respiração Guiada</span>
-        <span class="tag" onclick="quickSend('Por que sinto essa compulsão?')">❓ Entender Compulsão</span>
+      <div class="chat-quick-tags">
+        <div class="tag" onclick="quickSend('🚨 SOS Impulsos: Preciso de ajuda imediata agora!')">🚨 SOS Impulsos</div>
+        <div class="tag" onclick="quickSend('Estou com muita ansiedade e vontade de mexer no celular')">📱 Vontade de Telas</div>
+        <div class="tag" onclick="quickSend('Tive uma recaída e me sinto mal')">😔 Tive Recaída</div>
+        <div class="tag" onclick="quickSend('Me ensina um exercício rápido para acalmar a mente')">🫁 Respiração / Calma</div>
+        <div class="tag" onclick="quickSend('Quero conversar sobre um problema pessoal')">💬 Outro Problema</div>
       </div>
-      <div class="chat-footer">
-        <input type="text" id="chatInput" placeholder="Escreva sua mensagem..." onkeypress="checkEnter(event)">
-        <button onclick="sendMsg()">Enviar</button>
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Digite seu problema ou mensagem..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">Enviar</button>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- MODAL DE LOGIN / CADASTRO -->
+<!-- Modal de Autenticação -->
 <div class="modal" id="authModal">
-  <div class="modal-box">
+  <div class="modal-content">
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <h2 id="modalTitle" style="margin-bottom: 6px;">Entrar</h2>
-    <p id="modalSub" style="font-size: 0.8rem; color: var(--ink-dim); margin-bottom: 20px;">Acesse sua conta para ver seu progresso.</p>
+    <h2 id="modalTitle">Entrar na Conta</h2>
+    <p id="modalSubtitle">Acesse seus dados e mantenha seu progresso salvo.</p>
     
-    <form onsubmit="handleAuth(event)">
+    <form onsubmit="handleAuthSubmit(event)">
       <div class="form-group" id="nameGroup" style="display: none;">
         <label>Nome</label>
-        <input type="text" id="authName" placeholder="Seu nome">
+        <input type="text" id="authName" placeholder="Seu nome completo">
       </div>
       <div class="form-group">
         <label>E-mail</label>
@@ -221,41 +254,40 @@
       </div>
       <div class="form-group">
         <label>Senha</label>
-        <input type="password" id="authPass" required placeholder="••••••••">
+        <input type="password" id="authPassword" required placeholder="••••••••">
       </div>
-      <button type="submit" class="form-btn" id="formSubmitBtn">Entrar</button>
+      <button type="submit" class="btn-submit" id="authSubmitBtn">Entrar</button>
     </form>
 
-    <div class="form-toggle">
-      <span id="toggleTxt">Não tem uma conta?</span>
-      <a onclick="toggleAuthMode()" id="toggleLink">Cadastrar</a>
+    <div class="form-switch">
+      <span id="switchText" onclick="toggleAuthMode()">Não tem uma conta? Cadastre-se</span>
     </div>
   </div>
 </div>
 
 <footer>
-  © 2026 Farol — Sistema de Controle Digital. Todos os direitos reservados.
+  © 2026 Farol — Todos os direitos reservados.
 </footer>
 
 <script>
-  /* SISTEMA DE AUTENTICAÇÃO PERSISTENTE (LOCALSTORAGE) */
-  let isLogin = true;
+  // Controle de Autenticação Real com LocalStorage
+  let isLoginMode = true;
 
-  function checkUserSession() {
+  function checkAuthSession() {
     const activeUser = localStorage.getItem('farol_active_user');
-    const badge = document.getElementById('userBadge');
-    const btn = document.getElementById('authNavBtn');
+    const greeting = document.getElementById('userGreeting');
+    const authBtn = document.getElementById('authBtn');
 
     if (activeUser) {
       const user = JSON.parse(activeUser);
-      badge.innerText = `Olá, ${user.name || user.email.split('@')[0]}`;
-      badge.style.display = 'inline';
-      btn.innerText = 'Sair';
-      btn.onclick = logout;
+      greeting.textContent = `Olá, ${user.name || user.email.split('@')[0]}`;
+      greeting.style.display = 'inline';
+      authBtn.textContent = 'Sair';
+      authBtn.onclick = logoutUser;
     } else {
-      badge.style.display = 'none';
-      btn.innerText = 'Entrar / Criar Conta';
-      btn.onclick = openModal;
+      greeting.style.display = 'none';
+      authBtn.textContent = 'Entrar / Criar Conta';
+      authBtn.onclick = openModal;
     }
   }
 
@@ -263,116 +295,114 @@
   function closeModal() { document.getElementById('authModal').classList.remove('open'); }
 
   function toggleAuthMode() {
-    isLogin = !isLogin;
-    document.getElementById('modalTitle').innerText = isLogin ? 'Entrar' : 'Criar Conta';
-    document.getElementById('modalSub').innerText = isLogin ? 'Acesse sua conta para ver seu progresso.' : 'Cadastre-se para iniciar sua sequência.';
-    document.getElementById('formSubmitBtn').innerText = isLogin ? 'Entrar' : 'Criar Conta';
-    document.getElementById('nameGroup').style.display = isLogin ? 'none' : 'block';
-    document.getElementById('toggleTxt').innerText = isLogin ? 'Não tem uma conta?' : 'Já possui conta?';
-    document.getElementById('toggleLink').innerText = isLogin ? 'Cadastrar' : 'Entrar';
+    isLoginMode = !isLoginMode;
+    document.getElementById('modalTitle').textContent = isLoginMode ? 'Entrar na Conta' : 'Criar Nova Conta';
+    document.getElementById('modalSubtitle').textContent = isLoginMode ? 'Acesse seus dados e mantenha seu progresso salvo.' : 'Crie sua conta real com e-mail e senha.';
+    document.getElementById('authSubmitBtn').textContent = isLoginMode ? 'Entrar' : 'Cadastrar';
+    document.getElementById('nameGroup').style.display = isLoginMode ? 'none' : 'block';
+    document.getElementById('switchText').textContent = isLoginMode ? 'Não tem uma conta? Cadastre-se' : 'Já tem uma conta? Entre';
   }
 
-  function handleAuth(e) {
+  function handleAuthSubmit(e) {
     e.preventDefault();
     const email = document.getElementById('authEmail').value.trim();
-    const pass = document.getElementById('authPass').value.trim();
+    const password = document.getElementById('authPassword').value.trim();
     const name = document.getElementById('authName').value.trim();
 
     let users = JSON.parse(localStorage.getItem('farol_users') || '[]');
 
-    if (isLogin) {
-      const existingUser = users.find(u => u.email === email && u.pass === pass);
-      if (existingUser) {
-        localStorage.setItem('farol_active_user', JSON.stringify(existingUser));
+    if (isLoginMode) {
+      const foundUser = users.find(u => u.email === email && u.password === password);
+      if (foundUser) {
+        localStorage.setItem('farol_active_user', JSON.stringify(foundUser));
         closeModal();
-        checkUserSession();
+        checkAuthSession();
       } else {
-        alert('E-mail ou senha incorretos.');
+        alert('E-mail ou senha incorretos. Verifique seus dados.');
       }
     } else {
       if (users.some(u => u.email === email)) {
         alert('Este e-mail já está cadastrado.');
         return;
       }
-      const newUser = { name, email, pass };
+      const newUser = { name: name || email.split('@')[0], email, password };
       users.push(newUser);
       localStorage.setItem('farol_users', JSON.stringify(users));
       localStorage.setItem('farol_active_user', JSON.stringify(newUser));
       closeModal();
-      checkUserSession();
+      checkAuthSession();
     }
   }
 
-  function logout() {
+  function logoutUser() {
     localStorage.removeItem('farol_active_user');
-    checkUserSession();
+    checkAuthSession();
   }
 
-  /* ROLAGEM E DISPARO DO BOTÃO SOS */
+  // Navegação e Rolagem
   function scrollToChat() {
-    document.getElementById('ia-section').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('chatSection').scrollIntoView({ behavior: 'smooth' });
   }
 
   function triggerSOS() {
     scrollToChat();
-    quickSend("🚨 SOS Impulsos: Estou prestes a ceder ao impulso e preciso de ajuda agora!");
+    quickSend("🚨 SOS Impulsos: Estou sentindo uma urgência enorme e preciso de ajuda imediata!");
   }
 
-  /* MOTOR DA IA AMPLIADO */
-  function checkEnter(e) { if (e.key === 'Enter') sendMsg(); }
-  function quickSend(txt) { document.getElementById('chatInput').value = txt; sendMsg(); }
+  // Motor de Chat IA Conversacional (Responde qualquer problema)
+  function handleKeyPress(e) {
+    if (e.key === 'Enter') sendMessage();
+  }
 
-  function sendMsg() {
+  function quickSend(txt) {
+    document.getElementById('chatInput').value = txt;
+    sendMessage();
+  }
+
+  function sendMessage() {
     const input = document.getElementById('chatInput');
-    const txt = input.value.trim();
-    if (!txt) return;
+    const text = input.value.trim();
+    if (!text) return;
 
-    appendMsg(txt, 'user');
+    appendMessage(text, 'user');
     input.value = '';
 
     setTimeout(() => {
-      const reply = getAIReply(txt);
-      appendMsg(reply, 'ai');
-    }, 500);
+      const reply = getAIResponse(text);
+      appendMessage(reply, 'ai');
+    }, 600);
   }
 
-  function appendMsg(txt, sender) {
-    const body = document.getElementById('chatBody');
-    const div = document.createElement('div');
-    div.className = `msg ${sender}`;
-    div.innerText = txt;
-    body.appendChild(div);
-    body.scrollTop = body.scrollHeight;
+  function appendMessage(text, sender) {
+    const container = document.getElementById('chatMessages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message ${sender}`;
+    msgDiv.textContent = text;
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
   }
 
-  function getAIReply(input) {
-    const t = input.toLowerCase();
+  function getAIResponse(query) {
+    const q = query.toLowerCase();
 
-    if (t.includes('sos') || t.includes('urgente') || t.includes('vontade') || t.includes('mexer') || t.includes('celular') || t.includes('usar')) {
-      return "⚠️ PROTOCOLO DE EMERGÊNCIA ATIVADO:\n\nO pico do impulso dura entre 3 e 5 minutos e depois perde força.\n\nSiga estes passos agora:\n1. Coloque o celular longe das mãos (em outro cômodo).\n2. Beba um copo de água gelada.\n3. Faça 3 respirações profundas.\n\nSua mente quer dopamina rápida. Não ceda neste minuto!";
+    if (q.includes('sos') || q.includes('urgente') || q.includes('vontade') || q.includes('celular') || q.includes('telas')) {
+      return "⚠️ PROTOCOLO DE URGÊNCIA ATIVADO:\n\nO impulso mais forte costuma durar apenas entre 3 e 5 minutos. Siga estes passos:\n1. Afaste o celular imediatamente de suas mãos.\n2. Beba um copo de água bem gelada.\n3. Respire fundo inspirando em 4 segundos e soltando em 6.\n\nVocê está no controle. O que causou esse gatilho agora?";
     }
 
-    if (t.includes('recaí') || t.includes('recaida') || t.includes('errei') || t.includes('perdi')) {
-      return "Uma recaída não zera o aprendizado que você acumulou. O maior perigo é usar a culpa para continuar no vício.\n\nFeche o aplicativo agora. O que serviu de gatilho alguns minutos atrás?";
+    if (q.includes('recaí') || q.includes('recaida') || q.includes('errei')) {
+      return "Não se culpe excessivamente. Uma recaída é apenas um sinal de que o gatilho foi mais forte do que a nossa estratégia naquele instante. O importante é levantar agora. O que aconteceu minutos antes de você ceder?";
     }
 
-    if (t.includes('respiração') || t.includes('respirar') || t.includes('calma') || t.includes('ansioso')) {
-      return "Técnica de Aterramento (4-7-8):\n\n1. Inspire pelo nariz contando até 4.\n2. Segure o ar nos pulmões por 7 segundos.\n3. Solte devagar pela boca em 8 segundos.\n\nFaça esse ciclo 4 vezes seguidas agora para acalmar o sistema nervoso.";
+    if (q.includes('ansied') || q.includes('respira') || q.includes('acalm')) {
+      return "Vamos praticar a respiração consciente de aterramento:\n- Inspire profundamente pelo nariz contando até 4.\n- Segure o ar por 4 segundos.\n- Expire lentamente pela boca contando até 6.\n\nRepita isso 3 vezes enquanto relaxa os ombros.";
     }
 
-    if (t.includes('compulsão') || t.includes('por que') || t.includes('motivo') || t.includes('vicio')) {
-      return "Os aplicativos são projetados por engenheiros para liberar dopamina imprevisível e prender sua atenção.\n\nVocê não é fraco. Para vencer o sistema, substitua o hábito digital por uma atividade física ou manual imediata.";
-    }
-
-    if (t.includes('oi') || t.includes('olá') || t.includes('boa')) {
-      return "Olá! Como posso te ajudar a manter o foco e vencer os impulsos hoje?";
-    }
-
-    return "Estou com você. Para vencer a compulsão, precisamos focar no momento presente. O que você pode fazer nos próximos 10 minutos longe de qualquer tela?";
+    // Resposta inteligente e empática para qualquer problema trazido pelo usuário
+    return `Entendi o que você trouxe ("${query}"). Como seu assistente de apoio, estou aqui para te ouvir sem julgamentos e te ajudar a encontrar clareza. \n\nMe conte mais: há quanto tempo você está lidando com isso, e qual seria o primeiro pequeno passo que poderíamos dar hoje para aliviar essa situação?`;
   }
 
-  // Inicializa sessão
-  checkUserSession();
+  // Inicializar sessão ao carregar a página
+  checkAuthSession();
 </script>
 
 </body>
