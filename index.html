@@ -270,6 +270,72 @@
   }
   @media (max-width: 860px) { .problem-grid { grid-template-columns: 1fr; } }
 
+  /* ---------- CALCULADORA INTELIGENTE E PROGRESO (NOVO MÓDULO INTEGRADO) ---------- */
+  .calculator-section { background: var(--bg-soft); border-top: 1px solid var(--line); }
+  .calculator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .calc-box, .progress-calc-box {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 30px;
+  }
+  .calc-display {
+    width: 100%; background: var(--bg); border: 1px solid var(--line); padding: 16px;
+    color: var(--ink); font-family: 'Newsreader', serif; font-size: 1.8rem; text-align: right;
+    border-radius: 6px; margin-bottom: 20px; min-height: 70px; word-break: break-all;
+  }
+  .calc-keypad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .calc-keypad button {
+    background: rgba(255,255,255,0.03); border: 1px solid var(--line); color: var(--ink);
+    padding: 14px; font-size: 1rem; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s;
+  }
+  .calc-keypad button:hover { background: rgba(255,255,255,0.08); border-color: var(--beam); }
+  .calc-keypad button.op { color: var(--beam); background: rgba(59,130,246,0.1); }
+  
+  .progress-calc-box h3 { margin-bottom: 16px; font-size: 1.3rem; }
+  .progress-input-group { margin-bottom: 16px; }
+  .progress-input-group label { display: block; font-size: 0.8rem; color: var(--ink-dim); margin-bottom: 6px; text-transform: uppercase; }
+  .progress-input-group input, .progress-input-group select {
+    width: 100%; background: var(--bg); border: 1px solid var(--line); padding: 12px;
+    color: var(--ink); border-radius: 6px; outline: none; font-size: 0.9rem; font-family: inherit;
+  }
+  .progress-result { margin-top: 20px; padding: 16px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 6px; font-size: 0.95krem; line-height: 1.6; }
+  @media (max-width: 860px) { .calculator-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- MODO FOCO & TRAVA DE DISTRAÇÕES (NOVO MÓDULO INTEGRADO) ---------- */
+  .focus-section { background: var(--bg); border-top: 1px solid var(--line); text-align: center; }
+  .focus-card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 40px;
+    max-width: 600px; margin: 0 auto;
+  }
+  .focus-timer { font-family: 'Newsreader', serif; font-size: 4rem; color: var(--beam); margin: 20px 0; }
+  .focus-controls { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+  .focus-task-input {
+    width: 100%; background: var(--bg); border: 1px solid var(--line); padding: 12px; color: var(--ink);
+    border-radius: 6px; margin-bottom: 20px; font-family: inherit; text-align: center; font-size: 1rem;
+  }
+  .distraction-guard {
+    margin-top: 20px; padding: 14px; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 6px; font-size: 0.85rem; color: var(--ink-dim); display: flex; justify-content: space-between; align-items: center;
+  }
+
+  /* ---------- AGENDA & ROTINA (NOVO MÓDULO INTEGRADO) ---------- */
+  .agenda-section { background: var(--bg-soft); border-top: 1px solid var(--line); }
+  .agenda-container { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 30px; max-width: 800px; margin: 0 auto; }
+  .agenda-form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; margin-bottom: 24px; }
+  .agenda-form input { background: var(--bg); border: 1px solid var(--line); padding: 12px; color: var(--ink); border-radius: 6px; font-family: inherit; }
+  .task-list { display: flex; flex-direction: column; gap: 10px; max-height: 300px; overflow-y: auto; }
+  .task-item { background: var(--bg); border: 1px solid var(--line); padding: 14px 18px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+  .task-item.completed { text-decoration: line-through; opacity: 0.5; }
+  @media (max-width: 720px) { .agenda-form { grid-template-columns: 1fr; } }
+
+  /* ---------- APRENDA ALGO NOVO / HABILIDADES (NOVO MÓDULO INTEGRADO) ---------- */
+  .skills-section { background: var(--bg); border-top: 1px solid var(--line); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 30px; }
+  .skill-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px; transition: border-color .2s; }
+  .skill-card:hover { border-color: var(--beam); }
+  .skill-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+  .skill-card p { font-size: 0.88rem; color: var(--ink-dim); margin-bottom: 16px; }
+  .progress-bar { width: 100%; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin-bottom: 10px; }
+  .progress-fill { height: 100%; background: var(--beam); width: 0%; transition: width 0.4s ease; }
+
   /* ---------- CALCULADORA DE IMPACTO ---------- */
   .simulator { background: var(--bg-soft); border-top: 1px solid var(--line); }
   .simulator-head { max-width: 600px; margin-bottom: 50px; text-align: center; margin-left: auto; margin-right: auto; }
@@ -643,11 +709,11 @@
   </div>
   <div class="nav-links">
     <a href="#problema">O problema</a>
-    <a href="#impacto">Calculadora</a>
-    <a href="#solucao">O app</a>
+    <a href="#calculadoraInteligente">Calculadora & Metas</a>
+    <a href="#modoFoco">Modo Foco</a>
+    <a href="#minhaRotina">Minha Rotina</a>
+    <a href="#aprendaAlgoNovo">Aprenda Algo Novo</a>
     <a href="#chatSection">Assistente IA</a>
-    <a href="#depoimentos">Depoimentos</a>
-    <a href="#faq">FAQ</a>
     <span class="user-greeting" id="userGreeting"></span>
     <button class="nav-cta" id="authBtn" onclick="openModal()">Entrar / Conta</button>
   </div>
@@ -687,7 +753,145 @@
   </div>
 </section>
 
-<!-- CALCULADORA DE IMPACTO -->
+<!-- MÓDULO 1 & 7: CALCULADORA INTELIGENTE E PROGRSSO (CALCULE SEU PROGRESSO) -->
+<section class="calculator-section" id="calculadoraInteligente">
+  <div class="wrap">
+    <div class="simulator-head reveal">
+      <h2>Calculadora Inteligente & Calcule seu Progresso</h2>
+      <p>Transforme objetivos vagos em números concretos e resolva cálculos do dia a dia.</p>
+    </div>
+    <div class="calculator-grid reveal">
+      <div class="calc-box">
+        <h3>Calculadora Prática</h3>
+        <div class="calc-display" id="calcDisplay">0</div>
+        <div class="calc-keypad">
+          <button onclick="calcClear()">C</button>
+          <button onclick="calcAppend('/')" class="op">÷</button>
+          <button onclick="calcAppend('*')" class="op">×</button>
+          <button onclick="calcBack()">⌫</button>
+          <button onclick="calcAppend('7')">7</button>
+          <button onclick="calcAppend('8')">8</button>
+          <button onclick="calcAppend('9')">9</button>
+          <button onclick="calcAppend('-')" class="op">-</button>
+          <button onclick="calcAppend('4')">4</button>
+          <button onclick="calcAppend('5')">5</button>
+          <button onclick="calcAppend('6')">6</button>
+          <button onclick="calcAppend('+')" class="op">+</button>
+          <button onclick="calcAppend('1')">1</button>
+          <button onclick="calcAppend('2')">2</button>
+          <button onclick="calcAppend('3')">3</button>
+          <button onclick="calcCalculate()" class="op" style="grid-row: span 2;">=</button>
+          <button onclick="calcAppend('0')" style="grid-column: span 2;">0</button>
+          <button onclick="calcAppend('.')">.</button>
+        </div>
+      </div>
+      <div class="progress-calc-box">
+        <h3>Calcule seu Progresso</h3>
+        <div class="progress-input-group">
+          <label>Qual meta ou habilidade você quer atingir?</label>
+          <input type="text" id="progGoalName" placeholder="Ex: Aprender Programação">
+        </div>
+        <div class="progress-input-group">
+          <label>Tempo total estimado (horas):</label>
+          <input type="number" id="progTotalHours" placeholder="Ex: 120">
+        </div>
+        <div class="progress-input-group">
+          <label>Quanto tempo você pode dedicar por dia?</label>
+          <select id="progHoursPerDay">
+            <option value="0.5">30 minutos por dia</option>
+            <option value="1" selected>1 hora por dia</option>
+            <option value="2">2 horas por dia</option>
+            <option value="3">3 horas por dia</option>
+          </select>
+        </div>
+        <button class="btn-primary" style="width: 100%; margin-top: 10px;" onclick="calculateProgressPlan()">Gerar Plano Numérico</button>
+        <div class="progress-result" id="progResultOutput">
+          Preencha os campos acima para visualizar seu planejamento detalhado em dias e semanas.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULO 3: MODO FOCO & TRAVA DE DISTRAÇÕES -->
+<section class="focus-section" id="modoFoco">
+  <div class="wrap">
+    <div class="simulator-head reveal" style="margin-bottom: 30px;">
+      <h2>Modo Foco</h2>
+      <p>Mantenha sua atenção em uma única atividade com temporizador e proteção contra distrações.</p>
+    </div>
+    <div class="focus-card reveal">
+      <input type="text" id="focusTaskInput" class="focus-task-input" placeholder="Em qual tarefa você vai focar agora?">
+      <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 16px;">
+        <button class="btn-ghost" onclick="setFocusTime(15)">15 min</button>
+        <button class="btn-ghost" onclick="setFocusTime(25)" style="border-color: var(--beam);">25 min</button>
+        <button class="btn-ghost" onclick="setFocusTime(45)">45 min</button>
+        <button class="btn-ghost" onclick="setFocusTime(60)">60 min</button>
+      </div>
+      <div class="focus-timer" id="focusTimerDisplay">25:00</div>
+      <div class="focus-controls">
+        <button class="btn-primary" id="startFocusBtn" onclick="toggleFocusTimer()">Iniciar Sessão</button>
+        <button class="btn-ghost" onclick="resetFocusTimer()">Reiniciar</button>
+      </div>
+      <div class="distraction-guard">
+        <span>Trava de Distrações Ativa (Anti-Scroll)</span>
+        <input type="checkbox" id="distractionGuardToggle" checked style="accent-color: var(--beam); cursor: pointer;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULO 4: CALENDÁRIO E AGENDA INTELIGENTE (MINHA ROTINA) -->
+<section class="agenda-section" id="minhaRotina">
+  <div class="wrap">
+    <div class="simulator-head reveal">
+      <h2>Minha Rotina & Agenda Inteligente</h2>
+      <p>Organize seus estudos, trabalho e descanso de forma realista.</p>
+    </div>
+    <div class="agenda-container reveal">
+      <div class="agenda-form">
+        <input type="text" id="newTaskTitle" placeholder="Nova tarefa ou compromisso...">
+        <input type="time" id="newTaskTime" value="09:00">
+        <button class="btn-primary" onclick="addNewTask()">Adicionar</button>
+      </div>
+      <div class="task-list" id="taskContainerList">
+        <!-- Tarefas renderizadas dinamicamente -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULO 5: APRENDA ALGO NOVO -->
+<section class="skills-section" id="aprendaAlgoNovo">
+  <div class="wrap">
+    <div class="simulator-head reveal">
+      <h2>Aprenda Algo Novo</h2>
+      <p>Escolha uma habilidade e acompanhe seu desenvolvimento prático passo a passo.</p>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-card">
+        <h3>Programação & Lógica</h3>
+        <p>Aprenda a construir algoritmos e resolver problemas reais com código.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 35%;"></div></div>
+        <span style="font-size: 0.75rem; color: var(--ink-faint);">35% concluído — Próximo: Funções e Loops</span>
+      </div>
+      <div class="skill-card">
+        <h3>Inglês Prático</h3>
+        <p>Foco em conversação e vocabulário aplicável ao cotidiano e trabalho.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 60%;"></div></div>
+        <span style="font-size: 0.75rem; color: var(--ink-faint);">60% concluído — Próximo: Phrasal Verbs</span>
+      </div>
+      <div class="skill-card">
+        <h3>Comunicação & Escrita</h3>
+        <p>Desenvolva clareza, poder de síntese e argumentação profissional.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 20%;"></div></div>
+        <span style="font-size: 0.75rem; color: var(--ink-faint);">20% concluído — Próximo: Estrutura de parágrafos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULADORA DE IMPACTO ORIGINAL -->
 <section class="simulator" id="impacto">
   <div class="wrap">
     <div class="simulator-head reveal">
@@ -784,12 +988,12 @@
   </div>
 </section>
 
-<!-- SEÇÃO DO CHAT COM IA INTELIGENTE -->
+<!-- MÓDULO 2: CHAT COM IA COM PERSONALIDADE HUMANA E CONVERSACIONAL -->
 <section class="chat-section" id="chatSection">
   <div class="wrap">
     <div class="chat-section-head reveal">
       <h2>Assistente de Apoio Inteligente</h2>
-      <p>Converse abertamente a qualquer momento sobre gatilhos, ansiedade, recaídas ou orientações de foco.</p>
+      <p>Converse de forma natural, acolhedora e direta sobre metas, foco, rotina ou impulsos digitais.</p>
     </div>
     <div class="chat-box reveal">
       <div class="chat-header">
@@ -799,16 +1003,16 @@
         </div>
       </div>
       <div class="chat-messages" id="chatMessages">
-        <div class="message ai">Olá! Estou aqui para conversar com você sobre qualquer problema, impulso ou desafio que esteja enfrentando agora. Como você está se sentindo?</div>
+        <div class="message ai">Olá! Estou aqui para conversar com você sem rodeios. Como posso te ajudar a organizar seu dia ou vencer algum desafio agora?</div>
       </div>
       <div class="chat-quick-tags">
         <div class="tag" onclick="quickSend('🚨 SOS Impulsos: Preciso de ajuda imediata agora!')">🚨 SOS Impulsos</div>
         <div class="tag" onclick="quickSend('Estou com muita ansiedade e vontade de mexer no celular')">📱 Vontade de Telas</div>
-        <div class="tag" onclick="quickSend('Tive uma recaída e me sinto mal')">😔 Tive Recaída</div>
-        <div class="tag" onclick="quickSend('Me ensina um exercício rápido para acalmar a mente')">🫁 Respiração / Calma</div>
+        <div class="tag" onclick="quickSend('Como posso dividir minha meta de estudo de forma realista?')">📈 Planejar Metas</div>
+        <div class="tag" onclick="quickSend('Estou procrastinando e não consigo começar uma tarefa')">⏳ Procrastinação</div>
       </div>
       <div class="chat-input-area">
-        <input type="text" id="chatInput" placeholder="Digite seu problema ou mensagem..." onkeypress="handleKeyPress(event)">
+        <input type="text" id="chatInput" placeholder="Digite sua mensagem ou dúvida..." onkeypress="handleKeyPress(event)">
         <button onclick="sendMessage()">Enviar</button>
       </div>
     </div>
@@ -947,7 +1151,164 @@
   }, { threshold: 0.15 });
   els.forEach(el => io.observe(el));
 
-  // Calculadora Interativa de Impacto
+  // --- CALCULADORA PRÁTICA ---
+  let calcExpression = "";
+  function calcAppend(val) {
+    if (calcExpression === "Erro" || calcExpression === "0") calcExpression = "";
+    calcExpression += val;
+    document.getElementById("calcDisplay").textContent = calcExpression;
+  }
+  function calcClear() {
+    calcExpression = "";
+    document.getElementById("calcDisplay").textContent = "0";
+  }
+  function calcBack() {
+    calcExpression = calcExpression.slice(0, -1);
+    document.getElementById("calcDisplay").textContent = calcExpression || "0";
+  }
+  function calcCalculate() {
+    try {
+      let res = eval(calcExpression.replace(/×/g, '*').replace(/÷/g, '/'));
+      calcExpression = String(res);
+      document.getElementById("calcDisplay").textContent = calcExpression;
+    } catch (e) {
+      calcExpression = "Erro";
+      document.getElementById("calcDisplay").textContent = "Erro";
+    }
+  }
+
+  // --- CALCULE SEU PROGRESSO ---
+  function calculateProgressPlan() {
+    const name = document.getElementById("progGoalName").value.trim() || "Sua Meta";
+    const totalHours = parseFloat(document.getElementById("progTotalHours").value) || 0;
+    const hoursPerDay = parseFloat(document.getElementById("progHoursPerDay").value) || 1;
+
+    if (totalHours <= 0) {
+      alert("Por favor, informe um tempo total válido em horas.");
+      return;
+    }
+
+    const totalDays = Math.ceil(totalHours / hoursPerDay);
+    const totalWeeks = (totalDays / 7).toFixed(1);
+
+    const output = `<b>Meta:</b> ${name}<br>` +
+                   `• Carga horária total: <b>${totalHours}h</b><br>` +
+                   `• Ritmo: <b>${hoursPerDay}h/dia</b><br>` +
+                   `• Prazo estimado: <b>${totalDays} dias</b> (~${totalWeeks} semanas).<br>` +
+                   `<span style="color:var(--beam);">💡 Ação sugerida: Reserve um bloco fixo diário para garantir consistência sem desgaste.</span>`;
+    document.getElementById("progResultOutput").innerHTML = output;
+  }
+
+  // --- MODO FOCO & TEMPORIZADOR ---
+  let focusTimeLeft = 25 * 60;
+  let focusTimerId = null;
+  let isFocusRunning = false;
+
+  function setFocusTime(mins) {
+    if (isFocusRunning) return;
+    focusTimeLeft = mins * 60;
+    updateFocusDisplay();
+  }
+
+  function updateFocusDisplay() {
+    const m = Math.floor(focusTimeLeft / 60);
+    const s = focusTimeLeft % 60;
+    document.getElementById("focusTimerDisplay").textContent = 
+      String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
+  }
+
+  function toggleFocusTimer() {
+    const btn = document.getElementById("startFocusBtn");
+    if (!isFocusRunning) {
+      isFocusRunning = true;
+      btn.textContent = "Pausar";
+      focusTimerId = setInterval(() => {
+        if (focusTimeLeft > 0) {
+          focusTimeLeft--;
+          updateFocusDisplay();
+        } else {
+          clearInterval(focusTimerId);
+          isFocusRunning = false;
+          btn.textContent = "Iniciar Sessão";
+          alert("Parabéns! Sessão de foco concluída com sucesso.");
+        }
+      }, 1000);
+    } else {
+      clearInterval(focusTimerId);
+      isFocusRunning = false;
+      btn.textContent = "Continuar";
+    }
+  }
+
+  function resetFocusTimer() {
+    clearInterval(focusTimerId);
+    isFocusRunning = false;
+    focusTimeLeft = 25 * 60;
+    document.getElementById("startFocusBtn").textContent = "Iniciar Sessão";
+    updateFocusDisplay();
+  }
+
+  // Interceptador de saída do Modo Foco (Trava de Distrações / Anti-Scroll)
+  window.addEventListener('beforeunload', (e) => {
+    const guardActive = document.getElementById("distractionGuardToggle")?.checked;
+    if (isFocusRunning && guardActive) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+
+  // --- AGENDA & ROTINA INTELIGENTE ---
+  let tasks = JSON.parse(localStorage.getItem('farol_tasks') || '[]');
+
+  function renderTasks() {
+    const container = document.getElementById("taskContainerList");
+    container.innerHTML = "";
+    if (tasks.length === 0) {
+      container.innerHTML = '<div style="color:var(--ink-faint); font-size:0.85rem; text-align:center; padding:10px;">Nenhuma tarefa na agenda. Adicione acima.</div>';
+      return;
+    }
+    tasks.forEach((t, index) => {
+      const item = document.createElement('div');
+      item.className = `task-item ${t.completed ? 'completed' : ''}`;
+      item.innerHTML = `
+        <div><b>[${t.time}]</b> ${t.title}</div>
+        <div>
+          <button onclick="toggleTask(${index})" class="btn-ghost" style="padding:4px 8px; font-size:0.75rem; margin-right:6px;">✓</button>
+          <button onclick="deleteTask(${index})" class="btn-ghost" style="padding:4px 8px; font-size:0.75rem; color:var(--sos); border-color:rgba(239,68,68,0.3);">✕</button>
+        </div>
+      `;
+      container.appendChild(item);
+    });
+  }
+
+  function addNewTask() {
+    const titleInput = document.getElementById("newTaskTitle");
+    const timeInput = document.getElementById("newTaskTime");
+    const title = titleInput.value.trim();
+    const time = timeInput.value || "09:00";
+    if (!title) return;
+
+    tasks.push({ title, time, completed: false });
+    localStorage.setItem('farol_tasks', JSON.stringify(tasks));
+    titleInput.value = "";
+    renderTasks();
+  }
+
+  function toggleTask(index) {
+    tasks[index].completed = !tasks[index].completed;
+    localStorage.setItem('farol_tasks', JSON.stringify(tasks));
+    renderTasks();
+  }
+
+  function deleteTask(index) {
+    tasks.splice(index, 1);
+    localStorage.setItem('farol_tasks', JSON.stringify(tasks));
+    renderTasks();
+  }
+
+  renderTasks();
+
+  // --- CALCULADORA DE IMPACTO ---
   const hoursRange = document.getElementById('hoursRange');
   const hoursVal = document.getElementById('hoursVal');
   const resYears = document.getElementById('resYears');
@@ -969,7 +1330,7 @@
     updateSimulator(hoursRange.value);
   }
 
-  // Acordeão de FAQ
+  // --- ACORDEÃO DE FAQ ---
   const faqItems = document.querySelectorAll('.faq-item');
   faqItems.forEach(item => {
     const question = item.querySelector('.faq-question');
@@ -982,7 +1343,7 @@
     });
   });
 
-  // Controle de Autenticação Real com LocalStorage
+  // --- CONTROLE DE AUTENTICAÇÃO COM LOCALSTORAGE ---
   let isLoginMode = true;
 
   function checkAuthSession() {
@@ -1051,7 +1412,7 @@
     checkAuthSession();
   }
 
-  // Navegação do Chat e SOS
+  // --- ASSISTENTE DE IA COM PERSONALIDADE HUMANA ---
   function triggerSOS() {
     document.getElementById('chatSection').scrollIntoView({ behavior: 'smooth' });
     quickSend("🚨 SOS Impulsos: Estou sentindo uma urgência enorme e preciso de ajuda imediata!");
@@ -1096,18 +1457,17 @@
       return "⚠️ PROTOCOLO DE URGÊNCIA ATIVADO:\n\nO impulso mais forte costuma durar apenas entre 3 e 5 minutos. Siga estes passos:\n1. Afaste o celular imediatamente de suas mãos.\n2. Beba um copo de água bem gelada.\n3. Respire fundo inspirando em 4 segundos e soltando em 6.\n\nVocê está no controle. O que causou esse gatilho agora?";
     }
 
-    if (q.includes('recaí') || q.includes('recaida') || q.includes('errei')) {
-      return "Não se culpe excessivamente. Uma recaída é apenas um sinal de que o gatilho foi mais forte do que a nossa estratégia naquele instante. O importante é levantar agora. O que aconteceu minutos antes de você ceder?";
+    if (q.includes('procrastin') || q.includes('começar') || q.includes('tarefa')) {
+      return "Entendo perfeitamente. O segredo para vencer a procrastinação não é a motivação, mas sim a redução da fricção. Que tal abrirmos o Modo Foco agora e separar apenas 10 minutos para dar o primeiro passo minúsculo nessa tarefa?";
     }
 
-    if (q.includes('ansied') || q.includes('respira') || q.includes('acalm')) {
-      return "Vamos praticar a respiração consciente de aterramento:\n- Inspire profundamente pelo nariz contando até 4.\n- Segure o ar por 4 segundos.\n- Expire lentamente pela boca contando até 6.\n\nRepita isso 3 vezes enquanto relaxa os ombros.";
+    if (q.includes('meta') || q.includes('estudo') || q.includes('dividir')) {
+      return "Para metas complexas, use nossa seção 'Calcule seu Progresso' acima. Divida o total de horas pelo tempo diário que você realmente tem livre. Menos teoria, mais prática constante.";
     }
 
-    return `Entendi o que você trouxe ("${query}"). Como seu assistente de apoio, estou aqui para te ouvir sem julgamentos e te ajudar a encontrar clareza. \n\nMe conte mais: há quanto tempo você está lidando com isso, e qual seria o primeiro pequeno passo que poderíamos dar hoje para aliviar essa situação?`;
+    return `Entendi o que você trouxe ("${query}"). Como seu assistente de apoio, estou aqui para te ouvir sem julgamentos e te ajudar a encontrar clareza prática. \n\nMe conte mais: qual seria o primeiro pequeno passo que poderíamos dar hoje para resolver isso?`;
   }
 
-  // Inicializar estado do usuário
   checkAuthSession();
 </script>
 
