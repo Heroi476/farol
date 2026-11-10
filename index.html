@@ -8,7 +8,93 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
+<style>/* ================= EFEITO VIDRO (só barras e botões) ================= */
+:root{
+  --glass-bg: rgba(255,255,255,.08);
+  --glass-bg-hover: rgba(255,255,255,.15);
+  --glass-line: rgba(255,255,255,.16);
+  --glass-blur: blur(16px) saturate(160%);
+  --glass-shadow: inset 0 1px 0 rgba(255,255,255,.22),
+                  inset 0 -1px 0 rgba(255,255,255,.04),
+                  0 8px 24px rgba(0,0,0,.35);
+}
+
+/* BARRAS */
+.nav,
+.nav.scrolled,
+.chat-header,
+.community-channels,
+.chat-quick-tags,
+.chat-input-area{
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+}
+.nav,
+.nav.scrolled{
+  border-bottom: 1px solid var(--glass-line);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 10px 30px rgba(0,0,0,.35);
+}
+.chat-header,
+.community-channels,
+.chat-quick-tags,
+.chat-input-area{ border-color: var(--glass-line); }
+
+/* BOTÕES */
+.nav-cta,
+.btn-primary,
+.btn-ghost,
+.btn-sos,
+.btn-submit,
+.channel-btn,
+.tag,
+.chat-input-area button,
+.p-sos{
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-line);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+  color: var(--ink);
+  transition: background .25s ease, border-color .25s ease, transform .2s ease, box-shadow .25s ease, color .25s ease;
+}
+.nav-cta:hover,
+.btn-primary:hover,
+.btn-ghost:hover,
+.btn-sos:hover,
+.btn-submit:hover,
+.channel-btn:hover,
+.tag:hover,
+.chat-input-area button:hover,
+.p-sos:hover{
+  background: var(--glass-bg-hover);
+  border-color: rgba(255,255,255,.3);
+  box-shadow: var(--glass-shadow), 0 0 24px rgba(207,232,255,.18);
+}
+
+/* Variações de cor (vidro tingido) */
+.btn-primary,
+.btn-submit{ background: rgba(255,255,255,.20); border-color: rgba(255,255,255,.30); font-weight: 700; }
+.btn-primary:hover,
+.btn-submit:hover{ background: rgba(255,255,255,.28); opacity: 1; }
+.btn-sos{ background: rgba(239,68,68,.16); border-color: rgba(239,68,68,.45); color: #ff8a8a; }
+.btn-sos:hover{ background: rgba(239,68,68,.28); }
+.p-sos{ background: rgba(255,138,92,.12); border-color: rgba(255,138,92,.4); color: var(--ember); }
+.chat-input-area button{ background: rgba(59,130,246,.30); border-color: rgba(120,180,255,.40); color: #fff; }
+.chat-input-area button:hover{ background: rgba(59,130,246,.45); }
+.channel-btn.active{ background: rgba(6,182,212,.16); border-color: var(--cyan); }
+
+/* IMPORTANTE: filter e will-change nos pais "isolam" o fundo e o blur do
+   vidro não funciona dentro deles. Depois que o reveal termina, limpa isso. */
+.reveal.in{ filter: none; will-change: auto; }
+
+/* Fallback para navegadores sem backdrop-filter */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  .nav, .nav.scrolled{ background: rgba(10,14,22,.95); }
+  .nav-cta, .btn-primary, .btn-ghost, .btn-sos, .btn-submit,
+  .channel-btn, .tag, .chat-input-area button, .p-sos{ background: rgba(30,36,48,.95); }
+}
   :root {
     --bg: #05070a;
     --bg-soft: #0b0f16;
