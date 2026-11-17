@@ -1,1035 +1,953 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Farol — Plataforma Definitiva de Superação, Foco e Disciplina</title>
-<script>
-(function(){
-  var t;
-  try{ t = localStorage.getItem('farol_theme'); }catch(e){}
-  if(!t) t = (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', t);
-})();
-</script>
+<title>Farol — Superação, Foco e Disciplina</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #05070a; --bg-soft: #0b0f16; --panel: #10141c; --line: rgba(235,240,248,0.10);
-    --ink: #eef2f7; --ink-dim: #93a0b3; --ink-faint: #5c6579; --beam: #cfe8ff; --beam-soft: rgba(120,180,235,0.35);
-    --ember: #ff8a5c; --cyan: #06b6d4; --purple: #8b5cf6; --accent: #3b82f6; --sos: #ef4444; --sos-bg: rgba(239, 68, 68, 0.1);
-    --radius: 2px;
-    box-sizing: border-box;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
-  * { box-sizing: inherit; }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
-  html, body { height: 100%; margin: 0; background: var(--bg); color: var(--ink); font-family: 'Manrope', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-  h1, h2, h3, .display { font-family: 'Newsreader', Georgia, serif; font-weight: 500; letter-spacing: -0.01em; margin: 0; }
-  p { margin: 0; }
-  a { color: inherit; text-decoration: none; }
-  img, svg { max-width: 100%; }
-  ::selection { background: var(--beam-soft); color: #fff; }
-  body.mono-mode { filter: grayscale(100%) contrast(1.15); }
- 
-  /* ---------- NAV ---------- */
-  .nav { position: fixed; top: env(safe-area-inset-top, 0px); left: 0; right: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; padding: 22px 6vw; background: linear-gradient(to bottom, rgba(5,7,10,0.85), transparent); backdrop-filter: blur(2px); transition: background 0.3s ease, padding 0.3s ease, border-color 0.3s ease; }
-  .nav.scrolled { background: rgba(10, 14, 22, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); padding: 14px 6vw; }
-  .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-  .brand svg { width: 22px; height: 22px; transition: transform 0.3s ease; }
-  .brand:hover svg { transform: rotate(15deg); }
-  .brand span { font-family: 'Newsreader', serif; font-size: 1.05rem; letter-spacing: 0.01em; }
-  .nav-links { display: flex; align-items: center; gap: 20px; }
-  .nav-links a { font-size: 0.82rem; color: var(--ink-dim); transition: color .25s, transform .25s; }
-  .nav-links a:hover { color: var(--ink); transform: translateY(-1px); }
-  .user-greeting { font-size: 0.82rem; color: var(--beam); font-weight: 600; display: none; }
-  .nav-cta { border: 1px solid rgba(235,240,248,0.35); padding: 8px 16px; font-size: 0.78rem; color: var(--ink); background: transparent; cursor: pointer; transition: background .25s, border-color .25s, transform 0.2s; white-space: nowrap; border-radius: 4px; }
-  .nav-cta:hover { background: rgba(235,240,248,0.08); border-color: var(--ink); transform: scale(1.03); }
-  @media (max-width: 1024px) { .nav-links a:not(.nav-cta):not(.user-greeting) { display: none; } }
- 
-  /* ---------- HERO ---------- */
-  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 6vw 60px; overflow: hidden; }
-  .sky { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 45% at 50% 8%, rgba(80,130,180,0.10), transparent 60%), linear-gradient(180deg, #060a10 0%, #05070a 55%, #05070a 100%); }
-  .stars { position: absolute; inset: 0; background-image: radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.5), transparent), radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,0.35), transparent), radial-gradient(1px 1px at 60% 60%, rgba(255,255,255,0.3), transparent), radial-gradient(1px 1px at 35% 75%, rgba(255,255,255,0.4), transparent), radial-gradient(1px 1px at 90% 45%, rgba(255,255,255,0.3), transparent), radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.35), transparent); opacity: 0.6; }
-  .beam-origin { position: absolute; left: 50%; top: -6%; width: 4px; height: 4px; transform: translateX(-50%); }
-  .beam { position: absolute; left: 50%; top: -4%; width: 2600px; height: 2600px; margin-left: -1300px; transform-origin: 50% 6%; background: conic-gradient(from -14deg at 50% 6%, transparent 0deg, var(--beam-soft) 5deg, rgba(207,232,255,0.10) 9deg, transparent 15deg, transparent 360deg); animation: sweep 14s ease-in-out infinite; mix-blend-mode: screen; pointer-events: none; }
-  @keyframes sweep { 0% { transform: rotate(-24deg); } 50% { transform: rotate(24deg); } 100% { transform: rotate(-24deg); } }
-  .hero-content { position: relative; z-index: 2; max-width: 780px; }
-  .eyebrow-mark { display: inline-flex; align-items: center; gap: 10px; font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 26px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .eyebrow-mark i { width: 5px; height: 5px; background: var(--beam); display: inline-block; border-radius: 50%; box-shadow: 0 0 8px var(--beam); }
-  .hero h1 { font-size: clamp(2.3rem, 6vw, 4.2rem); line-height: 1.08; color: var(--ink); }
-  .hero h1 em { font-style: italic; color: var(--beam); }
-  .hero p.sub { margin: 26px auto 0; max-width: 520px; font-size: 1.05rem; line-height: 1.6; color: var(--ink-dim); }
-  .hero-actions { margin-top: 42px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { background: var(--ink); color: #060a10; padding: 14px 28px; font-size: 0.92rem; font-weight: 700; transition: transform .2s, box-shadow .2s; cursor: pointer; border: none; border-radius: 4px; }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 35px rgba(207,232,255,0.25); }
-  .btn-ghost { border: 1px solid rgba(235,240,248,0.3); padding: 13px 27px; font-size: 0.92rem; color: var(--ink-dim); transition: border-color .2s, color .2s, transform .2s; background: transparent; cursor: pointer; border-radius: 4px; }
-  .btn-ghost:hover { border-color: var(--ink); color: var(--ink); transform: translateY(-2px); }
-  .btn-sos { background: var(--sos-bg); border: 1px solid var(--sos); color: var(--sos); padding: 14px 28px; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all 0.2s; font-size: 0.92rem; }
-  .btn-sos:hover { background: rgba(239, 68, 68, 0.2); transform: scale(1.05); }
-  .scroll-cue { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--ink-faint); z-index: 2; }
-  .scroll-cue .line { width: 1px; height: 34px; background: linear-gradient(var(--ink-faint), transparent); animation: drip 2.2s ease-in-out infinite; }
-  @keyframes drip { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
- 
-  /* ---------- EFEITO DE SCROLL PREMIUM ---------- */
-  section { position: relative; padding: 140px 6vw; }
-  .wrap { max-width: 1080px; margin: 0 auto; }
-  .reveal { opacity: 0; transform: translateY(45px) scale(0.98); filter: blur(4px); transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 1.1s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform, filter; }
-  .reveal.in { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
- 
-  /* ---------- PROBLEMA ---------- */
-  .problem { background: var(--bg); border-top: 1px solid var(--line); }
-  .problem-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 70px; align-items: center; }
-  .problem h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); line-height: 1.25; color: var(--ink); }
-  .problem p.lede { margin-top: 22px; color: var(--ink-dim); font-size: 1.02rem; line-height: 1.75; max-width: 46ch; }
-  .noise-panel { position: relative; aspect-ratio: 4/5; background: var(--panel); border: 1px solid var(--line); overflow: hidden; border-radius: 6px; transition: transform 0.5s ease; }
-  .noise-panel:hover { transform: translateY(-5px); border-color: rgba(6,182,212,0.3); }
-  .notif { position: absolute; left: 8%; width: 84%; padding: 12px 14px; background: rgba(20,24,32,0.9); border: 1px solid rgba(235,240,248,0.08); font-size: 0.78rem; color: var(--ink-faint); display: flex; justify-content: space-between; gap: 10px; transition: transform 0.3s ease; }
-  .notif:hover { transform: scale(1.02); color: var(--ink); }
-  .notif b { color: var(--ink-dim); font-weight: 600; }
-  .notif.n1 { top: 12%; opacity: 0.55; }
-  .notif.n2 { top: 30%; opacity: 0.75; transform: translateX(6%); }
-  .notif.n3 { top: 48%; opacity: 0.95; }
-  .notif.n4 { top: 66%; opacity: 0.7; transform: translateX(4%); }
-  .notif.n5 { top: 84%; opacity: 0.4; }
-  .glow-line { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255,138,92,0.10), transparent 70%); }
-  @media (max-width: 860px) { .problem-grid { grid-template-columns: 1fr; } }
- 
-  /* ---------- CALCULADORA ---------- */
-  .simulator { background: var(--bg-soft); border-top: 1px solid var(--line); }
-  .simulator-head { max-width: 600px; margin-bottom: 50px; text-align: center; margin-left: auto; margin-right: auto; }
-  .simulator-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
-  .simulator-head p { margin-top: 16px; color: var(--ink-dim); font-size: 1rem; line-height: 1.6; }
-  .habit-calc-box { background: var(--panel); border: 1px solid var(--line); padding: 40px; max-width: 720px; margin: 0 auto; border-radius: 8px; text-align: left; box-shadow: 0 20px 50px rgba(0,0,0,0.4); transition: border-color 0.3s ease; }
-  .habit-calc-box:hover { border-color: rgba(6,182,212,0.3); }
-  .habit-form-group { margin-bottom: 20px; }
-  .habit-form-group label { display: block; font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 6px; text-transform: uppercase; font-weight: 600; }
-  .habit-form-group input, .habit-form-group select { width: 100%; background: var(--bg); border: 1px solid var(--line); padding: 12px; color: var(--ink); border-radius: 4px; outline: none; font-size: 0.95rem; font-family: inherit; transition: border-color 0.2s; }
-  .habit-form-group input:focus { border-color: var(--cyan); }
-  .habit-result-display { margin-top: 30px; padding: 24px; background: rgba(6,182,212,0.06); border: 1px solid rgba(6,182,212,0.25); border-radius: 8px; text-align: center; }
-  .habit-result-display h3 { font-size: 2.8rem; color: var(--cyan); font-family: 'Newsreader', serif; margin-bottom: 6px; }
- 
-  /* ---------- SHOWCASE ---------- */
-  .showcase { background: linear-gradient(180deg, var(--bg) 0%, #070a10 100%); border-top: 1px solid var(--line); }
-  .showcase-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 80px; align-items: center; }
-  .showcase h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); max-width: 15ch; }
-  .showcase p.lede { margin-top: 22px; color: var(--ink-dim); font-size: 1.02rem; line-height: 1.75; max-width: 42ch; }
-  .kpis { display: flex; gap: 40px; margin-top: 40px; }
-  .kpi b { display: block; font-family: 'Newsreader', serif; font-size: 2.1rem; color: var(--beam); }
-  .kpi span { font-size: 0.8rem; color: var(--ink-faint); }
-  .phone-stage { display: flex; justify-content: center; position: relative; }
-  .phone-glow { position: absolute; width: 340px; height: 340px; background: radial-gradient(circle, rgba(207,232,255,0.16), transparent 70%); filter: blur(10px); }
-  .phone { position: relative; width: 260px; height: 540px; background: #0c1017; border: 1px solid rgba(235,240,248,0.14); border-radius: 30px; padding: 14px; box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset; transition: transform 0.5s ease; }
-  .phone:hover { transform: translateY(-8px) rotate(1deg); }
-  .phone-screen { height: 100%; background: linear-gradient(180deg, #0a0d13, #070a0f 70%); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; padding: 26px 18px; }
-  .p-top { display: flex; justify-content: space-between; font-size: 0.62rem; color: var(--ink-faint); margin-bottom: 20px; }
-  .p-streak { text-align: center; margin: 4px 0 16px; }
-  .p-streak b { font-family: 'Newsreader', serif; font-size: 2.8rem; color: var(--ink); display: block; line-height: 1; }
-  .mascot-box-mini { background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 8px; padding: 10px; text-align: center; font-size: 0.72rem; color: var(--ink-dim); margin-bottom: 16px; }
-  .p-sos { margin-top: auto; border: 1px solid rgba(255,138,92,0.4); color: var(--ember); text-align: center; font-size: 0.72rem; letter-spacing: 0.04em; padding: 10px 0; border-radius: 4px; transition: background 0.2s; }
-  .p-sos:hover { background: rgba(255,138,92,0.15); }
-  @media (max-width: 860px) { .showcase-grid { grid-template-columns: 1fr; } .phone-stage { order: -1; } .kpis { gap: 28px; flex-wrap: wrap; } }
- 
-  /* ---------- FEATURES ---------- */
-  .features { background: #070a10; border-top: 1px solid var(--line); }
-  .features-head { max-width: 560px; margin-bottom: 64px; }
-  .features-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
-  .features-head p { margin-top: 18px; color: var(--ink-dim); font-size: 1.02rem; line-height: 1.7; }
-  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); }
-  .feature { padding: 38px 32px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); transition: background 0.3s ease; }
-  .feature:hover { background: rgba(255,255,255,0.015); }
-  .feature:nth-child(3n) { border-right: none; }
-  .feature h3 { font-size: 1.05rem; color: var(--ink); font-weight: 600; font-family: 'Manrope', sans-serif; }
-  .feature p { margin-top: 10px; font-size: 0.88rem; color: var(--ink-faint); line-height: 1.6; }
-  .feature .mark { width: 16px; height: 16px; margin-bottom: 20px; color: var(--beam); transition: transform 0.3s; }
-  .feature:hover .mark { transform: scale(1.2); }
-  @media (max-width: 860px) { .feature-grid { grid-template-columns: 1fr 1fr; } .feature:nth-child(3n) { border-right: 1px solid var(--line); } .feature:nth-child(2n) { border-right: none; } }
-  @media (max-width: 560px) { .feature-grid { grid-template-columns: 1fr; } .feature { border-right: none !important; } }
- 
-  /* ---------- MODO FOCO ---------- */
-  .focus-section { background: var(--bg); border-top: 1px solid var(--line); text-align: center; }
-  .focus-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 40px; max-width: 600px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transition: border-color 0.3s ease; }
-  .focus-card:hover { border-color: rgba(6,182,212,0.3); }
-  .focus-timer { font-family: 'Newsreader', serif; font-size: 4.5rem; color: var(--cyan); margin: 20px 0; }
-  .focus-controls { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
-  .focus-task-input { width: 100%; background: var(--bg); border: 1px solid var(--line); padding: 14px; color: var(--ink); border-radius: 4px; margin-bottom: 20px; font-family: inherit; text-align: center; font-size: 1rem; outline: none; transition: border-color 0.2s; }
-  .focus-task-input:focus { border-color: var(--cyan); }
-  .distraction-guard { margin-top: 20px; padding: 14px; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 4px; font-size: 0.85rem; color: var(--ink-dim); display: flex; justify-content: space-between; align-items: center; }
- 
-  /* ---------- JOGOS ---------- */
-  .games-section { background: var(--bg-soft); border-top: 1px solid var(--line); }
-  .games-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
-  .game-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; text-align: center; transition: transform 0.3s ease, border-color 0.3s ease; }
-  .game-card:hover { transform: translateY(-5px); border-color: rgba(6,182,212,0.3); }
-  .game-viewport { height: 160px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; margin: 20px 0; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-  .fishing-anim { font-size: 3rem; animation: fishMove 3s ease-in-out infinite alternate; }
-  @keyframes fishMove { 0% { transform: translateX(-30px); } 100% { transform: translateX(30px); } }
-  .car-anim { font-size: 3rem; animation: carMove 2s linear infinite; }
-  @keyframes carMove { 0% { transform: translateX(-50px); } 100% { transform: translateX(50px); } }
-  @media (max-width: 860px) { .games-grid { grid-template-columns: 1fr; } }
- 
-  /* ---------- CHAT & COMUNIDADE ---------- */
-  .chat-section { background: var(--bg-soft); border-top: 1px solid var(--line); }
-  .chat-section-head { max-width: 600px; margin-bottom: 40px; text-align: center; margin-left: auto; margin-right: auto; }
-  .chat-section-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
-  .chat-section-head p { margin-top: 16px; color: var(--ink-dim); font-size: 1rem; line-height: 1.6; }
-  .chat-box { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; height: 500px; max-width: 800px; margin: 0 auto; box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
-  .chat-header { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 600; }
-  .status-indicator { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #10b981; }
-  .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
-  .community-channels { display: flex; gap: 8px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: rgba(0,0,0,0.15); overflow-x: auto; }
-  .channel-btn { background: var(--bg); border: 1px solid var(--line); color: var(--ink-dim); padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-  .channel-btn.active, .channel-btn:hover { border-color: var(--cyan); color: var(--ink); background: rgba(6,182,212,0.1); }
-  .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
-  .message { max-width: 80%; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; line-height: 1.5; white-space: pre-line; }
-  .message.ai, .message.peer { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); align-self: flex-start; }
-  .message.user { background: rgba(255, 255, 255, 0.1); align-self: flex-end; color: var(--ink); }
-  .chat-quick-tags { display: flex; gap: 8px; padding: 10px 20px; overflow-x: auto; border-top: 1px solid var(--line); background: rgba(0,0,0,0.1); }
-  .tag { background: var(--bg); border: 1px solid var(--line); color: var(--ink-dim); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-  .tag:hover { border-color: var(--beam); color: var(--ink); transform: translateY(-1px); }
-  .chat-input-area { padding: 16px 20px; border-top: 1px solid var(--line); display: flex; gap: 12px; background: var(--panel); }
-  .chat-input-area input { flex: 1; background: var(--bg); border: 1px solid var(--line); padding: 12px 16px; color: var(--ink); border-radius: 4px; outline: none; font-family: inherit; font-size: 0.9rem; }
-  .chat-input-area input:focus { border-color: var(--beam); }
-  .chat-input-area button { background: var(--accent); color: white; border: none; padding: 0 20px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.2s; }
-  .chat-input-area button:hover { background: #2563eb; transform: scale(1.03); }
- 
-  /* ---------- CONQUISTAS ---------- */
-  .rewards-section { background: var(--bg); border-top: 1px solid var(--line); }
-  .rewards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
-  .badge-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px; text-align: center; transition: transform 0.3s ease, border-color 0.3s ease; }
-  .badge-card:hover { transform: translateY(-5px); }
-  .badge-card.unlocked { border-color: var(--cyan); background: linear-gradient(135deg, var(--panel), rgba(6,182,212,0.08)); }
-  .badge-icon { font-size: 2.5rem; margin-bottom: 12px; transition: transform 0.3s; }
-  .badge-card:hover .badge-icon { transform: scale(1.15) rotate(5deg); }
- 
-  /* ---------- DEPOIMENTOS ---------- */
-  .testimonials { background: var(--bg-soft); border-top: 1px solid var(--line); }
-  .testimonials-head { max-width: 560px; margin-bottom: 64px; }
-  .testimonials-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
-  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-  .testimonial-card { background: var(--panel); border: 1px solid var(--line); padding: 32px; display: flex; flex-direction: column; justify-content: space-between; border-radius: 4px; transition: transform 0.3s ease, border-color 0.3s ease; }
-  .testimonial-card:hover { transform: translateY(-5px); border-color: rgba(235,240,248,0.25); }
-  .testimonial-card p { font-size: 0.95rem; color: var(--ink-dim); line-height: 1.7; font-style: italic; }
-  .testimonial-author { margin-top: 24px; font-size: 0.82rem; color: var(--ink); font-weight: 600; }
-  .testimonial-author span { display: block; font-weight: 400; color: var(--ink-faint); font-size: 0.75rem; margin-top: 2px; }
-  @media (max-width: 860px) { .testimonials-grid { grid-template-columns: 1fr; } }
- 
-  /* ---------- STEPS ---------- */
-  .steps { background: var(--bg); border-top: 1px solid var(--line); }
-  .steps-head { max-width: 560px; margin-bottom: 60px; }
-  .steps-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
-  .step-list { display: flex; flex-direction: column; }
-  .step { display: grid; grid-template-columns: 70px 1fr; gap: 28px; padding: 34px 0; border-top: 1px solid var(--line); align-items: baseline; transition: transform 0.3s ease; }
-  .step:hover { transform: translateX(6px); }
-  .step:last-child { border-bottom: 1px solid var(--line); }
-  .step .n { font-family: 'Newsreader', serif; font-style: italic; color: var(--ink-faint); font-size: 1.3rem; }
-  .step h3 { font-size: 1.15rem; color: var(--ink); font-weight: 600; font-family: 'Manrope', sans-serif; }
-  .step p { margin-top: 8px; color: var(--ink-dim); font-size: 0.95rem; max-width: 60ch; line-height: 1.65; }
- 
-  /* ---------- FAQ ---------- */
-  .faq { background: var(--bg-soft); border-top: 1px solid var(--line); }
-  .faq-head { max-width: 560px; margin-bottom: 50px; }
-  .faq-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
-  .faq-list { max-width: 800px; }
-  .faq-item { border-bottom: 1px solid var(--line); padding: 24px 0; transition: background 0.2s; }
-  .faq-question { font-size: 1.05rem; color: var(--ink); font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-  .faq-answer { margin-top: 12px; font-size: 0.92rem; color: var(--ink-dim); line-height: 1.7; display: none; }
-  .faq-item.active .faq-answer { display: block; }
- 
-  /* ---------- CTA ---------- */
-  .cta { background: #05070a; border-top: 1px solid var(--line); text-align: center; padding: 160px 6vw 140px; position: relative; overflow: hidden; }
-  .cta::before { content: ""; position: absolute; left: 50%; top: 0; width: 900px; height: 900px; margin-left: -450px; background: radial-gradient(ellipse 50% 50% at 50% 0%, rgba(207,232,255,0.10), transparent 65%); }
-  .cta h2 { position: relative; font-size: clamp(2rem, 5vw, 3.2rem); max-width: 16ch; margin: 0 auto; line-height: 1.15; }
-  .cta p { position: relative; margin: 24px auto 0; max-width: 46ch; color: var(--ink-dim); font-size: 1.02rem; }
-  .cta .hero-actions { position: relative; margin-top: 40px; }
- 
-  /* ---------- MODAL ---------- */
-  .modal { position: fixed; inset: 0; background: rgba(5,7,10,0.85); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
-  .modal.open { display: flex; }
-  .modal-content { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; width: 100%; max-width: 420px; padding: 32px; position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.7); }
-  .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--ink-dim); font-size: 1.2rem; cursor: pointer; transition: color 0.2s; }
-  .modal-close:hover { color: var(--ink); }
-  .modal-content h3 { margin-bottom: 8px; font-size: 1.5rem; font-family: 'Newsreader', serif; }
-  .modal-content p { color: var(--ink-dim); font-size: 0.85rem; margin-bottom: 24px; }
-  .form-group { margin-bottom: 16px; text-align: left; }
-  .form-group label { display: block; font-size: 0.75rem; color: var(--ink-faint); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-  .form-group input { width: 100%; background: var(--bg); border: 1px solid var(--line); padding: 12px; color: var(--ink); border-radius: 4px; outline: none; font-size: 0.9rem; font-family: inherit; transition: border-color 0.2s; }
-  .form-group input:focus { border-color: var(--beam); }
-  .btn-submit { width: 100%; background: var(--ink); color: var(--bg); border: none; padding: 12px; border-radius: 4px; font-weight: 700; cursor: pointer; margin-top: 8px; transition: opacity 0.2s, transform 0.2s; }
-  .btn-submit:hover { opacity: 0.9; transform: translateY(-1px); }
-  .form-switch { text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--ink-dim); }
-  .form-switch span { color: var(--beam); cursor: pointer; text-decoration: underline; }
- 
-  /* ---------- FOOTER ---------- */
-  footer { padding: 34px 6vw; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--ink-faint); flex-wrap: wrap; gap: 12px; }
-  footer .links { display: flex; gap: 26px; }
-  footer a { transition: color .2s; }
-  footer a:hover { color: var(--ink-dim); }
- 
-  @media (prefers-reduced-motion: reduce) {
-    .beam, .scroll-cue .line { animation: none; }
-    .reveal { transition: none; filter: none; transform: none; }
-  }
- 
-/* ================= EFEITO VIDRO (só barras e botões) ================= */
-:root{
-  --glass-bg: rgba(255,255,255,.08);
-  --glass-bg-hover: rgba(255,255,255,.15);
-  --glass-line: rgba(255,255,255,.16);
-  --glass-blur: blur(16px) saturate(160%);
-  --glass-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.04), 0 8px 24px rgba(0,0,0,.35);
+:root{--bg:#eef4fa;--ink:#0b1420;--mute:#5b6a7e;--card:rgba(255,255,255,.66);--line:rgba(12,30,60,.1);--acc:#1b6fe0;--acc-ink:#fff}
+[data-theme=dark]{--bg:#050a13;--ink:#eef4fb;--mute:#8797ad;--card:rgba(18,28,44,.55);--line:rgba(255,255,255,.08);--acc:#7cc4ff;--acc-ink:#04111f}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden;transition:background .5s,color .5s}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+#sea{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,footer{position:relative;z-index:1}
+body.mono main{filter:grayscale(1);transition:filter .6s}
+section{padding:110px 24px;max-width:1120px;margin:auto}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);font-weight:600}
+h1,h2,h3{letter-spacing:-.035em;line-height:1.08}
+h2{font-size:clamp(30px,4.2vw,50px);font-weight:700;margin:14px 0 16px}
+h3{font-size:19px;font-weight:600;letter-spacing:-.01em;margin-bottom:8px}
+.lead{color:var(--mute);font-size:clamp(16px,1.5vw,18px);max-width:640px}
+.mute{color:var(--mute)}
+.glass{background:var(--card);border:1px solid var(--line);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.card{border-radius:22px;padding:26px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:999px;font-weight:600;font-size:15px;cursor:pointer;border:1px solid transparent;background:none;transition:transform .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--acc);color:var(--acc-ink)}
+.btn-g{background:var(--card);border-color:var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.btn-sm{padding:9px 16px;font-size:14px}
+input,textarea,select{width:100%;background:transparent;border:1px solid var(--line);padding:12px 15px;border-radius:14px;outline:none;transition:border .2s}
+input:focus{border-color:var(--acc)}
+label.f{display:block;font-size:14px;color:var(--mute);margin:14px 0 6px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.center{justify-content:center;text-align:center}
+.chip{padding:8px 15px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--mute);cursor:pointer;font-size:13px;transition:.2s}
+.chip.sel{color:var(--acc);border-color:var(--acc)}
+
+/* NAV */
+.nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;width:min(96vw,1120px);display:flex;align-items:center;gap:4px;padding:8px 8px 8px 18px;border-radius:999px;font-size:14px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;margin-right:auto}
+.brand svg{width:22px;height:22px;color:var(--acc)}
+.nav a.l{padding:7px 10px;border-radius:999px;color:var(--mute)}
+.nav a.l:hover{color:var(--ink);background:var(--line)}
+.icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center;font-size:16px;flex:none}
+.avatar-mini{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1px solid var(--line);cursor:pointer;flex:none;display:none;background:var(--line)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:flex-start;padding:200px 24px 0;max-width:none}
+.hero-in{max-width:620px;margin-left:max(0px,calc(50% - 560px))}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;border-radius:999px;font-size:13px;margin-bottom:24px}
+.dot{width:7px;height:7px;border-radius:50%;background:#34c759}
+.hero h1{font-size:clamp(44px,6.6vw,84px);font-weight:800}
+.hero h1 em{font-style:normal;color:var(--acc)}
+.hero .lead{margin:20px 0 32px}
+.scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;color:var(--mute);text-transform:uppercase;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translate(-50%,6px)}}
+.hero{position:relative}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.rv.in{opacity:1;transform:none}
+
+/* PROBLEMA */
+.notifs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:44px}
+.notif{border-radius:18px;padding:16px 18px;display:flex;gap:12px;align-items:center}
+.app{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:18px;flex:none;color:#fff}
+.notif b{display:block;font-size:14px}
+.notif span{font-size:13px;color:var(--mute)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.stats div{padding:20px;border-radius:18px}
+.stats strong{display:block;font-size:30px;letter-spacing:-.03em}
+.stats span{font-size:13px;color:var(--mute)}
+
+/* QUEM SOMOS */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+.about .card{padding:30px}
+
+/* CONTADOR */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+.big{font-size:clamp(50px,7vw,86px);font-weight:800;letter-spacing:-.04em;line-height:1;margin:8px 0}
+.track{height:8px;border-radius:99px;background:var(--line);position:relative;margin:24px 0 10px}
+.track i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:var(--acc);width:0;transition:width 1s}
+.car{position:absolute;top:-14px;left:0;font-size:20px;transform:translateX(-50%);transition:left 1s}
+.badges{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
+.badge{padding:14px;border-radius:16px;opacity:.4;transition:.5s}
+.badge.on{opacity:1}
+.badge em{font-size:22px;font-style:normal;display:block}
+.badge small{color:var(--mute);font-size:12px}
+.chart-wrap{margin-top:26px}
+.chart{display:flex;align-items:flex-end;gap:10px;height:170px;padding-top:10px;border-bottom:1px solid var(--line)}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px;font-size:12px;color:var(--mute)}
+.bar i{width:100%;max-width:38px;border-radius:10px 10px 4px 4px;background:linear-gradient(var(--acc),transparent);min-height:4px;transition:height .6s}
+.tip{margin-top:20px;padding:16px 18px;border-radius:16px;font-size:14px;border-left:3px solid var(--acc)}
+.quote{margin-top:24px;font-size:clamp(18px,2vw,22px);font-weight:500;letter-spacing:-.01em;min-height:60px;transition:opacity .5s}
+
+/* DESCANSO */
+.rest-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+.game{padding:26px;border-radius:22px;display:flex;flex-direction:column}
+.stage{min-height:110px;display:flex;align-items:center;justify-content:center;font-size:56px;margin:14px 0;border-radius:16px;background:var(--line)}
+.roadway{height:60px;border-radius:14px;background:repeating-linear-gradient(90deg,var(--line) 0 40px,transparent 40px 80px);position:relative;margin:14px 0}
+.msg{font-size:14px;color:var(--mute);min-height:22px}
+.focus-cta{padding:30px;border-radius:22px;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+
+/* FOCO (translúcido) */
+.focus-ov{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.2);backdrop-filter:blur(26px) saturate(120%);-webkit-backdrop-filter:blur(26px) saturate(120%)}
+.focus-ov.open{display:flex}
+.focus-card{width:min(92vw,380px);border-radius:34px;padding:32px 26px;text-align:center;color:#eef4fb;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px)}
+[data-theme=light] .focus-card{color:#0b1420;background:rgba(255,255,255,.45);border-color:rgba(255,255,255,.7)}
+.moon{display:inline-flex;gap:8px;align-items:center;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.18);font-size:14px;font-weight:600}
+.clock{font-size:72px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.03em;margin:16px 0 6px}
+.tips{font-size:13px;text-align:left;margin:16px 0;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.12);line-height:1.6}
+.focus-card .chip{color:inherit;opacity:.7;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25)}
+.focus-card .chip.sel{opacity:1;border-color:#fff}
+.focus-card .btn-p{background:#fff;color:#0b1420}
+
+/* APRENDER (blocos) */
+.tabs{display:flex;gap:8px;margin-top:36px;flex-wrap:wrap}
+.block{display:none;margin-top:22px}
+.block.on{display:block}
+.block-head{padding:24px 26px;border-radius:22px;margin-bottom:14px}
+.lessons{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.lesson{padding:22px;border-radius:20px;display:flex;flex-direction:column;gap:8px}
+.lesson ol,.lesson ul{padding-left:20px;font-size:14px;color:var(--mute);display:flex;flex-direction:column;gap:4px}
+.lesson a{color:var(--acc);font-size:14px;font-weight:600;margin-top:auto;padding-top:8px}
+.meta{font-size:12px;color:var(--mute);letter-spacing:.05em;text-transform:uppercase}
+
+/* COMUNIDADE */
+.social{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-top:40px}
+.feed,.ai-box{border-radius:22px;display:flex;flex-direction:column;height:600px;overflow:hidden}
+.feed-head,.ai-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-weight:700;gap:10px}
+.tabs-s{display:flex;gap:6px;padding:10px 14px;overflow-x:auto;border-bottom:1px solid var(--line)}
+.post-list{flex:1;overflow-y:auto}
+.post{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;gap:12px}
+.av{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px;background-size:cover;background-position:center}
+.post-b{flex:1;min-width:0}
+.post-h{font-size:14px}
+.post-h span{color:var(--mute);font-weight:400}
+.post p{margin:4px 0 10px;font-size:15px}
+.acts2{display:flex;gap:18px;font-size:13px;color:var(--mute)}
+.acts2 button{background:none;border:0;cursor:pointer;color:inherit;padding:0}
+.acts2 button.on{color:#e0245e}
+.compose{display:flex;gap:10px;padding:14px 16px;border-top:1px solid var(--line)}
+.compose input{border-radius:999px}
+.msgs{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.bub{max-width:85%;padding:11px 15px;border-radius:18px;font-size:14px;background:var(--line);white-space:pre-wrap}
+.bub.me{align-self:flex-end;background:var(--acc);color:var(--acc-ink)}
+.quick{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 10px}
+.inbar{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line)}
+.inbar input{border-radius:999px}
+.on-dot{width:8px;height:8px;border-radius:50%;background:#34c759}
+
+/* DEPOIMENTOS */
+.tcarousel{margin-top:40px;position:relative;min-height:220px}
+.tcard{position:absolute;inset:0;margin:0;padding:30px;border-radius:24px;opacity:0;transform:translateX(30px);transition:.7s ease;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}
+.tcard.on{opacity:1;transform:none;pointer-events:auto}
+.tcard q{font-size:clamp(17px,2vw,21px);line-height:1.5;quotes:none}
+.who{display:flex;align-items:center;gap:12px;margin-top:18px}
+.who b{display:block}
+.who small{color:var(--mute)}
+.dots{display:flex;gap:8px;justify-content:center;margin-top:18px}
+.dots button{width:8px;height:8px;border-radius:99px;border:0;background:var(--line);cursor:pointer;transition:width .3s}
+.dots button.on{width:26px;background:var(--acc)}
+
+/* AGENDA */
+.agenda{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;margin-top:40px}
+.cal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.wk,.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.wk{font-size:12px;color:var(--mute);margin-bottom:6px}
+.day{aspect-ratio:1;border-radius:12px;border:1px solid transparent;background:none;cursor:pointer;position:relative;font-size:14px}
+.day:hover{background:var(--line)}
+.day.today{border-color:var(--acc);color:var(--acc)}
+.day.sel{background:var(--acc);color:var(--acc-ink)}
+.day i{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--acc)}
+.day.sel i{background:var(--acc-ink)}
+.ev-list{list-style:none;margin:12px 0;display:flex;flex-direction:column;gap:8px}
+.ev-list li{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--line);font-size:14px}
+.ev-list li b{color:var(--acc);min-width:46px}
+.ev-list li button{margin-left:auto;background:none;border:0;cursor:pointer;color:var(--mute);font-size:18px}
+.goal{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;cursor:pointer}
+.goal input{width:18px;height:18px;accent-color:var(--acc);flex:none;padding:0}
+.goal.done span{text-decoration:line-through;color:var(--mute)}
+.progress{height:6px;border-radius:99px;background:var(--line);margin:12px 0}
+.progress i{display:block;height:100%;border-radius:99px;background:var(--acc);width:0;transition:width .5s}
+
+/* FAQ */
+details{border-radius:18px;padding:18px 22px;margin-bottom:10px;cursor:pointer}
+details summary{font-size:16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font-size:22px;color:var(--acc);transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--mute);margin-top:10px;max-width:720px;font-size:15px}
+
+/* LOGIN */
+.auth{max-width:440px;margin:40px auto 0;padding:30px}
+.auth-tabs{display:flex;background:var(--line);border-radius:999px;padding:4px;margin-bottom:20px}
+.auth-tabs button{flex:1;border:0;background:none;padding:10px;border-radius:999px;cursor:pointer;color:var(--mute);font-weight:600}
+.auth-tabs button.on{background:var(--bg);color:var(--ink)}
+.photo-row{display:flex;align-items:center;gap:16px;margin-top:10px}
+.photo-pick{width:76px;height:76px;border-radius:50%;background:var(--line) center/cover;border:1px dashed var(--mute);display:grid;place-items:center;cursor:pointer;font-size:24px;flex:none;overflow:hidden}
+.photo-pick input{display:none}
+.btn-block{width:100%;margin-top:20px}
+.hidden{display:none!important}
+.profile-line{display:flex;align-items:center;gap:14px}
+
+/* CTA */
+.cta{position:relative;padding:0;max-width:none;height:min(90vh,760px);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;text-align:center;margin-top:60px}
+#paint{position:absolute;inset:0;width:100%;height:100%}
+.cta-in{position:relative;z-index:2;padding:0 24px 80px;color:#eef4fb;max-width:720px}
+.cta h2{color:#fff;margin-top:0}
+.cta .lead{color:#c7d6e8;margin:0 auto 28px}
+.cta .btn-p{background:#fff;color:#0b1420}
+footer{border-top:1px solid var(--line);padding:34px 24px;max-width:none}
+.foot{max-width:1120px;margin:auto;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:14px;color:var(--mute)}
+.foot nav{display:flex;gap:18px}
+
+/* SOS & TOAST */
+.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,120px);padding:12px 20px;border-radius:999px;font-size:14px;transition:transform .4s;z-index:120;background:var(--ink);color:var(--bg)}
+.toast.show{transform:translate(-50%,0)}
+.sos{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:110;text-align:center;padding:24px}
+.sos.open{display:flex}
+.x{position:absolute;top:16px;right:18px;background:none;border:0;color:var(--mute);font-size:22px;cursor:pointer}
+.breath{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,var(--acc),transparent 70%);margin:40px 0;animation:breathe 10s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(.55)}40%,60%{transform:scale(1.2)}}
+
+@media (max-width:860px){
+  .nav a.l{display:none}
+  .calc-grid,.rest-grid,.social,.agenda,.about{grid-template-columns:1fr}
+  .feed,.ai-box{height:520px}
+  .scroll{display:none}
+  .hero{padding-top:140px}
+  .hero-in{margin-left:0}
+  section{padding:90px 20px}
+  .stats{grid-template-columns:1fr}
 }
-.nav, .nav.scrolled, .chat-header, .community-channels, .chat-quick-tags, .chat-input-area{
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
-  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
-}
-.nav, .nav.scrolled{ border-bottom: 1px solid var(--glass-line); box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 10px 30px rgba(0,0,0,.35); }
-.chat-header, .community-channels, .chat-quick-tags, .chat-input-area{ border-color: var(--glass-line); }
-.nav-cta, .btn-primary, .btn-ghost, .btn-sos, .btn-submit, .channel-btn, .tag, .chat-input-area button, .p-sos{
-  background: var(--glass-bg); border: 1px solid var(--glass-line);
-  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
-  box-shadow: var(--glass-shadow); color: var(--ink);
-  transition: background .25s ease, border-color .25s ease, transform .2s ease, box-shadow .25s ease, color .25s ease;
-}
-.nav-cta:hover, .btn-primary:hover, .btn-ghost:hover, .btn-sos:hover, .btn-submit:hover, .channel-btn:hover, .tag:hover, .chat-input-area button:hover, .p-sos:hover{
-  background: var(--glass-bg-hover); border-color: rgba(255,255,255,.3);
-  box-shadow: var(--glass-shadow), 0 0 24px rgba(207,232,255,.18);
-}
-.btn-primary, .btn-submit{ background: rgba(255,255,255,.20); border-color: rgba(255,255,255,.30); font-weight: 700; }
-.btn-primary:hover, .btn-submit:hover{ background: rgba(255,255,255,.28); opacity: 1; }
-.btn-sos{ background: rgba(239,68,68,.16); border-color: rgba(239,68,68,.45); color: #ff8a8a; }
-.btn-sos:hover{ background: rgba(239,68,68,.28); }
-.p-sos{ background: rgba(255,138,92,.12); border-color: rgba(255,138,92,.4); color: var(--ember); }
-.chat-input-area button{ background: rgba(59,130,246,.30); border-color: rgba(120,180,255,.40); color: #fff; }
-.chat-input-area button:hover{ background: rgba(59,130,246,.45); }
-.channel-btn.active{ background: rgba(6,182,212,.16); border-color: var(--cyan); }
-.reveal.in{ filter: none; will-change: auto; }
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
-  .nav, .nav.scrolled{ background: rgba(10,14,22,.95); }
-  .nav-cta, .btn-primary, .btn-ghost, .btn-sos, .btn-submit, .channel-btn, .tag, .chat-input-area button, .p-sos{ background: rgba(30,36,48,.95); }
-}
- 
-/* ================= TEMA CLARO / ESCURO ================= */
-html{ color-scheme: dark; }
-html[data-theme="light"]{ color-scheme: light; }
-body{ transition: background-color .35s ease, color .35s ease; }
-.theme-toggle{
-  width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
-  background: var(--glass-bg); border: 1px solid var(--glass-line);
-  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
-  box-shadow: var(--glass-shadow); color: var(--ink); cursor: pointer; padding: 0; transition: background .25s, transform .2s;
-}
-.theme-toggle:hover{ background: var(--glass-bg-hover); transform: rotate(12deg) scale(1.05); }
-.theme-toggle svg{ width: 18px; height: 18px; }
-.theme-toggle .i-sun{ display: none; }
-html[data-theme="light"] .theme-toggle .i-moon{ display: none; }
-html[data-theme="light"] .theme-toggle .i-sun{ display: block; }
- 
-html[data-theme="light"]{
-  --bg: #f4f7fb; --bg-soft: #e9eef6; --panel: #ffffff; --line: rgba(15,23,42,.12);
-  --ink: #0f172a; --ink-dim: #475569; --ink-faint: #64748b; --beam: #1d4ed8; --beam-soft: rgba(59,130,246,.28);
-  --ember: #ea580c; --cyan: #0891b2; --accent: #2563eb; --sos: #dc2626; --sos-bg: rgba(220,38,38,.08);
-  --glass-bg: rgba(255,255,255,.55); --glass-bg-hover: rgba(255,255,255,.85); --glass-line: rgba(15,23,42,.14);
-  --glass-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 8px 24px rgba(15,23,42,.10);
-}
-html[data-theme="light"] .sky{ background: radial-gradient(ellipse 60% 45% at 50% 8%, rgba(59,130,246,.18), transparent 60%), linear-gradient(180deg, #e8f0fb 0%, #f4f7fb 60%, #f4f7fb 100%); }
-html[data-theme="light"] .stars{ opacity: 0; }
-html[data-theme="light"] .beam{ mix-blend-mode: multiply; opacity: .55; }
-html[data-theme="light"] .hero h1 em{ color: var(--beam); }
-html[data-theme="light"] .features{ background: #eef2f8; }
-html[data-theme="light"] .showcase{ background: linear-gradient(180deg, var(--bg) 0%, #e9eef6 100%); }
-html[data-theme="light"] .cta{ background: var(--bg); }
-html[data-theme="light"] .cta::before{ background: radial-gradient(ellipse 50% 50% at 50% 0%, rgba(59,130,246,.16), transparent 65%); }
-html[data-theme="light"] .notif{ background: rgba(255,255,255,.9); border-color: var(--line); }
-html[data-theme="light"] .phone{ background: #dfe6f0; border-color: rgba(15,23,42,.18); box-shadow: 0 40px 80px rgba(15,23,42,.18); }
-html[data-theme="light"] .phone-screen{ background: linear-gradient(180deg, #ffffff, #f1f5fa 70%); }
-html[data-theme="light"] .phone-glow{ background: radial-gradient(circle, rgba(59,130,246,.18), transparent 70%); }
-html[data-theme="light"] .mascot-box-mini{ background: rgba(15,23,42,.04); }
-html[data-theme="light"] .habit-calc-box, html[data-theme="light"] .focus-card, html[data-theme="light"] .chat-box, html[data-theme="light"] .modal-content{ box-shadow: 0 15px 40px rgba(15,23,42,.10); }
-html[data-theme="light"] .modal{ background: rgba(230,236,245,.75); }
-html[data-theme="light"] ::selection{ color: #0f172a; }
-html[data-theme="light"] .message.user{ background: rgba(15,23,42,.07); }
-html[data-theme="light"] .feature:hover{ background: rgba(15,23,42,.03); }
-html[data-theme="light"] .nav, html[data-theme="light"] .nav.scrolled, html[data-theme="light"] .chat-header, html[data-theme="light"] .community-channels, html[data-theme="light"] .chat-quick-tags, html[data-theme="light"] .chat-input-area{
-  background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.45)); box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
-}
-html[data-theme="light"] .nav, html[data-theme="light"] .nav.scrolled{ box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 10px 30px rgba(15,23,42,.08); }
-html[data-theme="light"] .btn-primary, html[data-theme="light"] .btn-submit{ background: rgba(37,99,235,.14); border-color: rgba(37,99,235,.40); color: #1e3a8a; }
-html[data-theme="light"] .btn-primary:hover, html[data-theme="light"] .btn-submit:hover{ background: rgba(37,99,235,.24); border-color: rgba(37,99,235,.6); }
-html[data-theme="light"] .btn-sos{ background: rgba(220,38,38,.10); border-color: rgba(220,38,38,.45); color: #b91c1c; }
-html[data-theme="light"] .btn-sos:hover{ background: rgba(220,38,38,.18); }
-html[data-theme="light"] .p-sos{ background: rgba(234,88,12,.10); border-color: rgba(234,88,12,.4); color: #c2410c; }
-html[data-theme="light"] .chat-input-area button{ background: rgba(37,99,235,.85); border-color: rgba(37,99,235,.9); color: #fff; }
-html[data-theme="light"] .chat-input-area button:hover{ background: rgba(37,99,235,1); }
-html[data-theme="light"] .channel-btn.active{ background: rgba(8,145,178,.14); border-color: var(--cyan); }
-html[data-theme="light"] .btn-ghost:hover, html[data-theme="light"] .nav-cta:hover, html[data-theme="light"] .channel-btn:hover, html[data-theme="light"] .tag:hover{ background: var(--glass-bg-hover); border-color: rgba(15,23,42,.28); }
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
 </head>
 <body>
- 
-<nav class="nav" id="mainNav">
-  <div class="brand" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2L9 9H15L12 2Z" fill="currentColor"/>
-      <path d="M8 22L9.4 10H14.6L16 22H8Z" stroke="currentColor" stroke-width="1.2"/>
-      <path d="M4 22H20" stroke="currentColor" stroke-width="1.2"/>
-    </svg>
-    <span>Farol</span>
-  </div>
-  <div class="nav-links">
-    <a href="#problema">O problema</a>
-    <a href="#impacto">Contador & Calculadora</a>
-    <a href="#modoFoco">Modo Foco</a>
-    <a href="#jogos">Jogos</a>
-    <a href="#comunidadeChat">Comunidade</a>
-    <a href="#assistenteAI">Assistente IA</a>
-    <a href="#conquistas">Conquistas</a>
-    <span class="user-greeting" id="userGreeting"></span>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar modo claro/escuro" onclick="toggleTheme()">
-      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
-      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-    </button>
-    <button class="nav-cta" id="authBtn" onclick="openModal()">Entrar / Conta</button>
-  </div>
+<canvas id="sea" aria-hidden="true"></canvas>
+
+<nav class="nav glass">
+  <a href="#top" class="brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21l1.5-14h3L15 21M8 21h8M10 7L6 3M14 7l4-4M9.5 4h5"/></svg>Farol
+  </a>
+  <a class="l" href="#problema">Problema</a>
+  <a class="l" href="#quem">Quem somos</a>
+  <a class="l" href="#impacto">Contador</a>
+  <a class="l" href="#descanso">Descanso</a>
+  <a class="l" href="#aprender">Aprender</a>
+  <a class="l" href="#comunidade">Comunidade</a>
+  <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="Alternar tema">🌙</button>
+  <img class="avatar-mini" id="navAvatar" alt="Perfil" onclick="location.hash='entrar'">
+  <a class="btn btn-g btn-sm" id="loginBtn" href="#entrar">Entrar</a>
+  <a class="btn btn-g btn-sm" href="https://claude.ai/artifact/URQG82LmKtGNnuaXGaTLUR" target="_blank" rel="noopener">📱 Abrir o app</a>
+  <button class="btn btn-p btn-sm" onclick="openSOS()">🚨 SOS</button>
 </nav>
- 
-<section class="hero">
-  <div class="sky"></div>
-  <div class="stars"></div>
-  <div class="beam-origin"><div class="beam"></div></div>
-  <div class="hero-content">
-    <div class="eyebrow-mark"><i></i>Plataforma Inteligente de Superação e Disciplina</div>
+
+<main>
+<div id="top"></div>
+
+<header class="hero">
+  <div class="hero-in">
+    <span class="pill glass"><span class="dot"></span>Feito por um grupo de amigos</span>
     <h1>Sua vida real está <em>esperando</em> você voltar.</h1>
-    <p class="sub">Farol ajuda você a sair do piloto automático das telas, superar hábitos nocivos — sem culpa, sem sermão — e reconstruir o controle absoluto sobre o seu tempo através de inteligência, jogos e comunidade.</p>
-    <div class="hero-actions">
-      <button class="btn-sos" onclick="triggerSOS()">🚨 SOS Impulsos</button>
-      <button class="btn-primary" onclick="openModal()">Começar minha sequência</button>
-      <a href="#impacto" class="btn-ghost">Configurar Contador</a>
+    <p class="lead">Um app e um site criados para diminuir o vício em redes sociais. Com sequências, foco, aprendizados e uma comunidade que te entende, sem sermão.</p>
+    <div class="row">
+      <button class="btn btn-p" onclick="openSOS()">🚨 SOS Impulsos</button>
+      <a class="btn btn-g" href="#impacto">Começar minha sequência</a>
+      <a class="btn btn-g" href="https://claude.ai/artifact/URQG82LmKtGNnuaXGaTLUR" target="_blank" rel="noopener">📱 Abrir o app</a>
     </div>
   </div>
-  <div class="scroll-cue"><span>ROLE PARA EXPLORAR</span><div class="line"></div></div>
+  <div class="scroll">Role e siga o farol</div>
+</header>
+
+<section id="problema">
+  <div class="rv"><span class="eyebrow">O problema</span>
+  <h2>Não é falta de força de vontade. É um sistema feito para prender sua atenção.</h2>
+  <p class="lead">Notificações, vídeos sem fim e recomendações foram desenhados para você nunca parar. Quem usa redes sociais por horas quase sempre não percebeu que perdeu o controle, e isso é normal. O Farol ajuda a recuperar esse controle aos poucos.</p></div>
+  <div class="notifs">
+    <div class="notif glass rv"><div class="app" style="background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af)">📷</div><div><b>Instagram</b><span>2 novas curtidas</span></div></div>
+    <div class="notif glass rv"><div class="app" style="background:#111">🎵</div><div><b>TikTok</b><span>Continue assistindo</span></div></div>
+    <div class="notif glass rv"><div class="app" style="background:#25d366">💬</div><div><b>Grupo da turma</b><span>+18 mensagens</span></div></div>
+    <div class="notif glass rv"><div class="app" style="background:#ff0000">▶</div><div><b>YouTube</b><span>Recomendado pra você</span></div></div>
+  </div>
+  <div class="stats rv">
+    <div class="glass"><strong>4h+</strong><span>média diária de telas entre jovens (estimativa de diversos estudos)</span></div>
+    <div class="glass"><strong>1 em 3</strong><span>pessoas diz checar o celular antes de dormir</span></div>
+    <div class="glass"><strong>10 min</strong><span>o tempo que uma vontade forte costuma durar</span></div>
+  </div>
 </section>
- 
-<section class="problem" id="problema">
-  <div class="wrap problem-grid">
-    <div class="reveal">
-      <h2>Não é falta de força de vontade. É um sistema desenhado pra prender sua atenção.</h2>
-      <p class="lede">Cada notificação, cada scroll infinito, cada estímulo foi construído para vencer sua vontade de parar. O Farol te dá estrutura, ferramentas de foco e apoio humano/IA no momento exato em que você precisa.</p>
+
+<section id="quem">
+  <div class="rv"><span class="eyebrow">Quem somos</span>
+  <h2>Um grupo de amigos que cansou de perder horas no celular.</h2></div>
+  <div class="about">
+    <div class="glass card rv"><h3>De onde surgiu</h3><p class="mute">A gente percebeu que sabia de cor o que era um feed sem fim, mas quase ninguém tinha uma ferramenta de verdade para sair dele. Decidimos criar uma.</p></div>
+    <div class="glass card rv"><h3>O que fazemos</h3><p class="mute">Criamos um aplicativo e um site para diminuir o vício em redes sociais. Eles juntam contadores de dias, foco, descanso e aprendizado prático, para você ocupar o tempo com algo que faz bem.</p></div>
+    <div class="glass card rv"><h3>Como pensamos</h3><p class="mute">Sem culpa e sem sermão. Recaída faz parte do processo, e o objetivo é progresso, não perfeição.</p></div>
+    <div class="glass card rv"><h3>Quem pode usar</h3><p class="mute">Qualquer pessoa que queira mais tempo e foco, especialmente quem está estudando ou trabalhando e sente o celular roubando a atenção.</p></div>
+  </div>
+</section>
+
+<section id="impacto">
+  <div class="rv"><span class="eyebrow">Contador</span>
+  <h2>Quanto tempo você já venceu?</h2>
+  <p class="lead">Informe quando sua jornada começou. Tudo é calculado no seu navegador.</p></div>
+  <div class="calc-grid">
+    <div class="glass card rv">
+      <label class="f" for="habit">Qual hábito você está superando?</label>
+      <input id="habit" placeholder="Ex.: redes sociais">
+      <label class="f" for="start">Início da jornada</label>
+      <input type="datetime-local" id="start">
+      <div class="row" style="margin-top:18px">
+        <button class="btn btn-p btn-sm" onclick="saveStart()">Salvar</button>
+        <button class="btn btn-g btn-sm" onclick="relapse()">Registrar recaída</button>
+      </div>
+      <div class="tip" id="tip"></div>
     </div>
-    <div class="noise-panel reveal">
-      <div class="glow-line"></div>
-      <div class="notif n1"><span>Instagram</span><b>2 novas curtidas</b></div>
-      <div class="notif n2"><span>TikTok</span><b>Continue assistindo</b></div>
-      <div class="notif n3"><span>Grupo da turma</span><b>+18 mensagens</b></div>
-      <div class="notif n4"><span>YouTube</span><b>Recomendado pra você</b></div>
-      <div class="notif n5"><span>WhatsApp</span><b>3 conversas</b></div>
+    <div class="glass card rv">
+      <span class="eyebrow">Sua sequência</span>
+      <div class="big" id="days">0 Dias</div>
+      <p class="mute" id="hms">0 horas e 0 minutos decorridos.</p>
+      <div class="track"><i id="bar"></i><span class="car" id="car">🏎️</span></div>
+      <p class="mute" style="font-size:13px">Meta da pista: 30 dias.</p>
+      <div class="badges">
+        <div class="badge glass" data-min="0"><em>🌱</em><b>Primeiro passo</b><br><small>Iniciou a jornada</small></div>
+        <div class="badge glass" data-min="7"><em>🛡️</em><b>7 dias firmes</b><br><small>Uma semana inteira</small></div>
+        <div class="badge glass" data-min="30"><em>🏆</em><b>Consistência</b><br><small>30 dias limpos</small></div>
+        <div class="badge glass" data-min="90"><em>👑</em><b>Farol aceso</b><br><small>90 dias limpos</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="glass card rv chart-wrap">
+    <div class="row" style="justify-content:space-between"><div><h3>Tempo longe das redes (últimos 7 dias)</h3><p class="mute" style="font-size:13px">Registre quantas horas você ficou sem redes hoje.</p></div>
+    <div class="row"><input id="hoursIn" type="number" min="0" max="24" step="0.5" placeholder="horas" style="width:110px"><button class="btn btn-p btn-sm" onclick="logHours()">Registrar</button></div></div>
+    <div class="chart" id="chart" style="margin-top:20px"></div>
+  </div>
+  <p class="quote rv" id="quote"></p>
+</section>
+
+<section id="descanso">
+  <div class="rv"><span class="eyebrow">Descanso</span>
+  <h2>Pausa boa é a que tira você da tela.</h2>
+  <p class="lead">Use o descanso para jogar, relaxar ou começar uma sessão de foco quando sentir vontade de abrir o celular.</p></div>
+  <div class="rest-grid">
+    <div class="glass focus-cta rv">
+      <div><h3>🌙 Modo foco</h3><p class="mute">Uma tela translúcida e monocromática, no estilo do foco do iPhone. Ative o Não Perturbe do celular antes de começar.</p></div>
+      <div class="row"><button class="btn btn-p" onclick="openFocus()">Abrir modo foco</button></div>
+    </div>
+    <div class="glass game rv">
+      <h3>🎣 Pescaria da superação</h3>
+      <p class="mute" style="font-size:14px">Lance a linha e pesque peixes raros.</p>
+      <div class="stage" id="catchStage">🌊</div>
+      <div class="msg" id="catch">Peixes capturados: <span id="fishN">0</span></div>
+      <div class="row" style="margin-top:12px"><button class="btn btn-p btn-sm" onclick="cast()">Lançar linha</button></div>
+    </div>
+    <div class="glass game rv" style="grid-column:1/-1">
+      <h3>🏎️ Carro da jornada</h3>
+      <div class="roadway"><span id="raceCar" style="position:absolute;top:12px;left:10px;font-size:28px;transition:left 1s">🏎️</span></div>
+      <div class="msg" id="raceMsg">Registre sua jornada para acelerar.</div>
     </div>
   </div>
 </section>
- 
-<!-- CALCULADORA DE DIAS E HÁBITOS ROBUSTA -->
-<section class="simulator" id="impacto">
-  <div class="wrap">
-    <div class="simulator-head reveal">
-      <h2>Calculadora de Dias & Progresso no Hábito</h2>
-      <p>Configure a data de início da sua jornada ou informe quantos dias já superou. O sistema calcula automaticamente o tempo exato decorrido com persistência segura em LocalStorage.</p>
+
+<section id="aprender">
+  <div class="rv"><span class="eyebrow">Aprender</span>
+  <h2>Troque o scroll por uma habilidade nova.</h2>
+  <p class="lead">Escolha um bloco: cozinhar, praticar esporte ou aprender Libras. Cada aula tem passos escritos e um link para vídeos do tema.</p></div>
+  <div class="tabs" id="ltabs"></div>
+  <div id="lblocks"></div>
+</section>
+
+<section id="comunidade">
+  <div class="rv"><span class="eyebrow">Comunidade anônima</span>
+  <h2>Ninguém passa por isso sozinho.</h2>
+  <p class="lead">Um feed anônimo e moderado, com a leveza de uma rede social e nenhum perfil real exposto.</p></div>
+  <div class="social">
+    <div class="glass feed rv">
+      <div class="feed-head">Comunidade <span class="mute" style="font-weight:400;font-size:13px">anônimo e moderado</span></div>
+      <div class="tabs-s" id="tabs"></div>
+      <div class="post-list" id="posts"></div>
+      <div class="compose"><input id="postIn" placeholder="Compartilhe algo de apoio" onkeydown="if(event.key==='Enter')publish()"><button class="btn btn-p btn-sm" onclick="publish()">Publicar</button></div>
     </div>
-    <div class="habit-calc-box reveal">
-      <div class="habit-form-group">
-        <label>Qual vício ou hábito você está superando?</label>
-        <input type="text" id="habitNameInput" placeholder="Ex: Uso excessivo de redes sociais / vício digital">
+    <div class="glass ai-box rv">
+      <div class="ai-head"><span class="row" style="gap:8px"><span class="on-dot"></span>Lumen · assistente de apoio</span></div>
+      <div class="msgs" id="ai"><div class="bub">Oi, eu sou o Lumen. Pode falar comigo sem julgamentos. Como você está agora?</div></div>
+      <div class="quick">
+        <button class="chip" onclick="quick('Estou com vontade de usar o celular agora')">📱 Vontade intensa</button>
+        <button class="chip" onclick="quick('Tive uma recaída hoje')">😔 Tive recaída</button>
+        <button class="chip" onclick="quick('Me ajuda a me acalmar')">🫁 Respirar</button>
       </div>
-      <div class="habit-form-group">
-        <label>Data em que iniciou sua jornada:</label>
-        <input type="date" id="habitStartDate">
-      </div>
-      <div style="display: flex; gap: 12px; margin-top: 15px;">
-        <button class="btn-primary" style="flex: 1;" onclick="saveJourneyData()">Salvar / Atualizar Jornada</button>
-        <button class="btn-ghost" style="color: var(--sos); border-color: rgba(239,68,68,0.4);" onclick="resetJourneyData()">Registrar Recaída (Recomeçar)</button>
-      </div>
-      <div class="habit-result-display" id="habitResultBox">
-        <h3 id="liveDaysCounter">0 Dias</h3>
-        <p id="liveTimeDetail" style="color: var(--ink-dim); font-size: 0.9rem;">0 horas e 0 minutos decorridos na jornada atual.</p>
-      </div>
+      <div class="inbar"><input id="aiIn" placeholder="Fale com o Lumen..." onkeydown="if(event.key==='Enter')aiSend()"><button class="btn btn-p btn-sm" onclick="aiSend()">Enviar</button></div>
     </div>
   </div>
 </section>
- 
-<!-- SHOWCASE COM O MASCOTE LUMEN -->
-<section class="showcase" id="solucao">
-  <div class="wrap showcase-grid">
-    <div class="phone-stage reveal">
-      <div class="phone-glow"></div>
-      <div class="phone">
-        <div class="phone-screen">
-          <div class="p-top"><span>9:41</span><span>Farol</span></div>
-          <div class="p-streak">
-            <span>DIAS SEGUINDOS</span>
-            <b id="phoneStreakVal">47</b>
-          </div>
-          <div class="mascot-box-mini">
-            🤖 <b>Lumen:</b> "Estou com você em cada passo!"
-          </div>
-          <div class="p-row"><span>Modo Foco</span><b>Mono Ativo</b></div>
-          <div class="p-sos" onclick="triggerSOS()" style="cursor:pointer;">BOTÃO SOS · IMPULSO AGORA</div>
+
+<section>
+  <div class="rv"><span class="eyebrow">Depoimentos</span>
+  <h2>Quem voltou a enxergar o essencial.</h2></div>
+  <div class="tcarousel" id="tc"></div>
+  <div class="dots" id="tdots"></div>
+</section>
+
+<section id="rotina">
+  <div class="rv"><span class="eyebrow">Rotina</span>
+  <h2>Sua agenda de superação.</h2>
+  <p class="lead">Marque compromissos, acompanhe metas e veja seus dias bons no calendário.</p></div>
+  <div class="agenda">
+    <div class="glass card rv">
+      <div class="cal-h"><button class="icon-btn" onclick="moveMonth(-1)">‹</button><b id="mlabel" style="text-transform:capitalize"></b><button class="icon-btn" onclick="moveMonth(1)">›</button></div>
+      <div class="wk"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+      <div class="grid" id="cal"></div>
+    </div>
+    <div class="glass card rv">
+      <h3 id="dayTitle" style="text-transform:capitalize"></h3>
+      <ul class="ev-list" id="dayList"></ul>
+      <div class="row"><input id="evT" placeholder="Compromisso" style="flex:1;min-width:130px"><input id="evH" type="time" style="width:118px"><button class="btn btn-p btn-sm" onclick="addEv()">Adicionar</button></div>
+      <h3 style="margin-top:26px">Metas</h3>
+      <div class="progress"><i id="gbar"></i></div>
+      <p class="mute" id="gtxt" style="font-size:13px"></p>
+      <div id="goals"></div>
+      <div class="row" style="margin-top:12px"><input id="goalIn" placeholder="Nova meta, ex.: 20 min de leitura" style="flex:1"><button class="btn btn-g btn-sm" onclick="addGoal()">Criar</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="perguntas">
+  <div class="rv"><span class="eyebrow">Dúvidas</span>
+  <h2>Perguntas frequentes.</h2></div>
+  <input id="faqQ" placeholder="Buscar uma pergunta..." oninput="filterFaq()" style="margin-top:30px">
+  <div style="margin-top:16px" id="faq">
+    <details class="glass"><summary>O Farol bloqueia o celular?</summary><p>Não. O Farol trabalha sua consciência com contadores, modo foco e apoio nos momentos de impulso. Para silenciar notificações, use o Não Perturbe do próprio celular.</p></details>
+    <details class="glass"><summary>E se eu escorregar e quebrar a sequência?</summary><p>Sem culpa. Recomeçar faz parte do processo. O Farol guarda seu histórico e te ajuda a levantar no dia seguinte.</p></details>
+    <details class="glass"><summary>Como funciona a comunidade anônima?</summary><p>Você conversa com pessoas que têm a mesma meta, sem perfis nem nomes reais. Há moderação contra ofensas.</p></details>
+    <details class="glass"><summary>Meus dados ficam salvos?</summary><p>Jornada, agenda, metas e login ficam no seu navegador nesta versão. Nada é enviado a servidores.</p></details>
+  </div>
+</section>
+
+<section id="entrar">
+  <div class="rv"><span class="eyebrow">Sua conta</span>
+  <h2>Entre e guarde seu progresso.</h2></div>
+  <div class="glass auth rv" id="authBox">
+    <div id="loginView">
+      <div class="auth-tabs"><button class="on" id="tabIn" onclick="authMode('in')">Entrar</button><button id="tabUp" onclick="authMode('up')">Criar conta</button></div>
+      <div id="upFields" class="hidden">
+        <div class="photo-row">
+          <label class="photo-pick" id="photoPick" title="Escolher foto"><span id="photoIcon">📷</span><input type="file" accept="image/*" onchange="pickPhoto(this)"></label>
+          <div class="mute" style="font-size:13px">Foto de perfil (opcional)</div>
         </div>
+        <label class="f" for="uName">Nome</label><input id="uName" placeholder="Seu nome">
       </div>
+      <label class="f" for="uMail">E-mail</label><input id="uMail" type="email" placeholder="voce@email.com">
+      <label class="f" for="uPass">Senha</label><input id="uPass" type="password" placeholder="Mínimo de 6 caracteres">
+      <button class="btn btn-p btn-block" onclick="doAuth()">Continuar</button>
     </div>
-    <div class="reveal">
-      <h2>Painel inteligente com o Mascote Lumen.</h2>
-      <p class="lede">O mascote Lumen te acompanha em todas as telas com mensagens acolhedoras e sem julgamentos. Nos momentos de vontade forte, o Modo Foco monocromático e o botão SOS cortam a ansiedade instantaneamente.</p>
-      <div class="kpis">
-        <div class="kpi"><b>Lumen</b><span>seu guia acolhedor e sem julgamentos</span></div>
-        <div class="kpi"><b>Monocromático</b><span>reduz o estímulo visual da tela</span></div>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<!-- MODO FOCO & TRAVA MONOCROMÁTICA -->
-<section class="focus-section" id="modoFoco">
-  <div class="wrap">
-    <div class="simulator-head reveal" style="margin-bottom: 30px;">
-      <h2>Modo Foco Imersivo (Tela Monocromática)</h2>
-      <p style="color: var(--ink-dim);">Ative a interface em preto, branco e cinza, remova distrações e concentre-se em uma única atividade.</p>
-    </div>
-    <div class="focus-card reveal">
-      <input type="text" id="focusTaskInput" class="focus-task-input" placeholder="Em qual atividade ou tarefa você vai focar agora?">
-      <div class="focus-controls">
-        <button class="btn-ghost" onclick="setFocusTime(5)">5 min</button>
-        <button class="btn-ghost" onclick="setFocusTime(15)">15 min</button>
-        <button class="btn-ghost" onclick="setFocusTime(25)" style="border-color: var(--cyan);">25 min</button>
-        <button class="btn-ghost" onclick="setFocusTime(45)">45 min</button>
-        <button class="btn-ghost" onclick="setFocusTime(60)">60 min</button>
-      </div>
-      <div class="focus-timer" id="focusTimerDisplay">25:00</div>
-      <div class="focus-controls">
-        <button class="btn-primary" id="startFocusBtn" onclick="toggleFocusTimer()">Iniciar Sessão de Foco</button>
-        <button class="btn-ghost" onclick="resetFocusTimer()">Reiniciar</button>
-      </div>
-      <div class="distraction-guard">
-        <span>Trava de Distrações & Tema Monocromático</span>
-        <input type="checkbox" id="monoModeToggle" onchange="toggleMonoMode()" checked style="accent-color: var(--cyan); cursor: pointer;">
-      </div>
+    <div id="profileView" class="hidden">
+      <div class="profile-line"><div class="av" id="pAv" style="width:64px;height:64px;font-size:22px"></div><div><b id="pName"></b><div class="mute" id="pMail" style="font-size:14px"></div></div></div>
+      <p class="mute" style="font-size:14px;margin-top:16px">Seu progresso está salvo neste navegador.</p>
+      <button class="btn btn-g btn-block" onclick="logout()">Sair da conta</button>
     </div>
   </div>
 </section>
- 
-<!-- JOGOS INTERATIVOS: PESCARIA & CARRINHO -->
-<section class="games-section" id="jogos">
-  <div class="wrap">
-    <div class="simulator-head reveal" style="text-align: center; margin-bottom: 40px;">
-      <h2>Área de Pausa & Jogos de Recompensa</h2>
-      <p style="color: var(--ink-dim);">Atividades relaxantes integradas à sua evolução real na jornada.</p>
-    </div>
-    <div class="games-grid reveal">
-      <div class="game-card">
-        <h3>🎣 Pescaria da Superação</h3>
-        <p style="color: var(--ink-dim); font-size: 0.85rem; margin-top: 6px;">Relaxe observando o farol iluminando o mar e capture peixes raros conforme acumula foco.</p>
-        <div class="game-viewport">
-          <div class="fishing-anim">🎣🐟</div>
-        </div>
-        <button class="btn-primary" onclick="playFishingGame()">Lançar Linha de Pesca</button>
-      </div>
-      <div class="game-card">
-        <h3>🏎️ Carro da Jornada</h3>
-        <p style="color: var(--ink-dim); font-size: 0.85rem; margin-top: 6px;">O veículo avança na pista em perfeita sintonia com os dias limpos registrados na sua calculadora.</p>
-        <div class="game-viewport">
-          <div class="car-anim">🏎️💨</div>
-        </div>
-        <button class="btn-primary" onclick="checkCarProgress()">Verificar Avanço na Pista</button>
-      </div>
-    </div>
+
+<section class="cta rv" id="cta" style="max-width:none;padding:0">
+  <canvas id="paint"></canvas>
+  <div class="cta-in">
+    <span class="eyebrow" style="color:#9fd6ff">Seu farol</span>
+    <h2>Sua vida sem o peso do vício não é privação. É presença.</h2>
+    <p class="lead">Entre na lista de espera e seja avisado quando o app abrir para o seu grupo.</p>
+    <a class="btn btn-p" href="#entrar">Entrar na lista de espera</a>
   </div>
 </section>
- 
-<!-- COMUNIDADE COM CHAT MODERADO -->
-<section class="chat-section" id="comunidadeChat">
-  <div class="wrap">
-    <div class="chat-section-head reveal">
-      <h2>Comunidade de Apoio Mútuo</h2>
-      <p>Espaço seguro, anônimo e moderado contra ofensas para troca de experiências.</p>
-    </div>
-    <div class="chat-box reveal">
-      <div class="community-channels">
-        <button class="channel-btn active" onclick="switchChannel('inicio')">🌱 Começando</button>
-        <button class="channel-btn" onclick="switchChannel('foco')">💡 Dicas de Foco</button>
-        <button class="channel-btn" onclick="switchChannel('superacao')">🛡️ Momentos Difíceis</button>
-        <button class="channel-btn" onclick="switchChannel('conquistas')">🏆 Conquistas</button>
-      </div>
-      <div class="chat-messages" id="communityMessages">
-        <div class="message peer"><b>Anônimo_94:</b> Consegui completar 7 dias limpos hoje! A respiração guiada me salvou ontem.</div>
-        <div class="message peer"><b>Guia_Silva:</b> Parabéns pela consistência! Continue firme, cada hora vencida importa.</div>
-      </div>
-      <div class="chat-input-area">
-        <input type="text" id="communityInput" placeholder="Escreva sua mensagem com respeito..." onkeypress="handleCommunityKey(event)">
-        <button onclick="sendCommunityMessage()">Enviar</button>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<!-- ASSISTENTE IA (LUMEN) -->
-<section class="chat-section" id="assistenteAI" style="background: var(--bg);">
-  <div class="wrap">
-    <div class="chat-section-head reveal">
-      <h2>Assistente IA de Apoio Contínuo (Lumen)</h2>
-      <p>Converse abertamente sobre gatilhos, ansiedade, recaídas ou orientações de superação.</p>
-    </div>
-    <div class="chat-box reveal">
-      <div class="chat-header">
-        <span>Farol IA (Lumen) — Conversa Humana</span>
-        <div class="status-indicator">
-          <div class="status-dot"></div> Online
-        </div>
-      </div>
-      <div class="chat-messages" id="aiMessages">
-        <div class="message ai">Olá! Sou o Lumen. Estou aqui para conversar com você sem julgamentos. Como você está se sentindo neste exato momento?</div>
-      </div>
-      <div class="chat-quick-tags">
-        <div class="tag" onclick="quickSendAI('🚨 SOS Impulsos: Preciso de ajuda imediata agora!')">🚨 SOS Impulsos</div>
-        <div class="tag" onclick="quickSendAI('Estou com muita ansiedade e vontade de ceder ao vício')">📱 Vontade Intensa</div>
-        <div class="tag" onclick="quickSendAI('Tive uma recaída e me sinto mal')">😔 Tive Recaída</div>
-        <div class="tag" onclick="quickSendAI('Me ensina um exercício rápido para acalmar a mente')">🫁 Respiração / Calma</div>
-      </div>
-      <div class="chat-input-area">
-        <input type="text" id="aiInput" placeholder="Digite sua mensagem para o Lumen..." onkeypress="handleAIKey(event)">
-        <button onclick="sendAIMessage()">Perguntar</button>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<!-- RECOMPENSAS & CONQUISTAS -->
-<section class="rewards-section" id="conquistas">
-  <div class="wrap">
-    <div class="simulator-head reveal" style="text-align: center; margin-bottom: 40px;">
-      <h2>Galeria de Conquistas & Medalhas</h2>
-      <p style="color: var(--ink-dim);">Reconhecimento contínuo por sua dedicação e perseverança na jornada.</p>
-    </div>
-    <div class="rewards-grid reveal">
-      <div class="badge-card unlocked">
-        <div class="badge-icon">🌱</div>
-        <h4>Primeiro Passo</h4>
-        <p style="font-size: 0.75rem; color: var(--ink-dim); margin-top: 4px;">Iniciou sua jornada oficial no Farol.</p>
-      </div>
-      <div class="badge-card unlocked">
-        <div class="badge-icon">⚡</div>
-        <h4>Foco Inicial</h4>
-        <p style="font-size: 0.75rem; color: var(--ink-dim); margin-top: 4px;">Completou a primeira sessão monocromática.</p>
-      </div>
-      <div class="badge-card">
-        <div class="badge-icon">🛡️</div>
-        <h4>7 Dias Firmes</h4>
-        <p style="font-size: 0.75rem; color: var(--ink-dim); margin-top: 4px;">Manteve o controle por uma semana inteira.</p>
-      </div>
-      <div class="badge-card">
-        <div class="badge-icon">🏆</div>
-        <h4>Mestre da Consistência</h4>
-        <p style="font-size: 0.75rem; color: var(--ink-dim); margin-top: 4px;">Alcançou a marca de 30 dias limpos.</p>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<section class="testimonials" id="depoimentos">
-  <div class="wrap">
-    <div class="testimonials-head reveal">
-      <h2>Histórias de quem voltou a enxergar o essencial.</h2>
-      <p>Veja como pessoas reais estão transformando o tempo livre e vencendo hábitos nocivos.</p>
-    </div>
-    <div class="testimonials-grid reveal">
-      <div class="testimonial-card">
-        <p>"O contador de dias e o suporte do Lumen me deram a pausa exata que faltava entre o meu impulso e o deslize."</p>
-        <div class="testimonial-author">Mariana S. <span>34 dias de sequência</span></div>
-      </div>
-      <div class="testimonial-card">
-        <p>"O botão SOS salvou meus finais de tarde. É impressionante como uma respiração guiada de 1 minuto corta a ansiedade."</p>
-        <div class="testimonial-author">Lucas M. <span>62 dias de sequência</span></div>
-      </div>
-      <div class="testimonial-card">
-        <p>"Finalmente um app que não te faz sentir culpado se você falhar. Ele te acolhe e te ajuda a levantar no dia seguinte."</p>
-        <div class="testimonial-author">Beatriz R. <span>19 dias de sequência</span></div>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<section class="steps" id="como-funciona">
-  <div class="wrap">
-    <div class="steps-head reveal">
-      <h2>Do primeiro dia à sua nova rotina.</h2>
-    </div>
-    <div class="step-list reveal">
-      <div class="step">
-        <span class="n">01</span>
-        <div><h3>Um diagnóstico honesto</h3><p>Sem julgamento: você mapeia seus horários e gatilhos pra entender de onde está partindo.</p></div>
-      </div>
-      <div class="step">
-        <span class="n">02</span>
-        <div><h3>Você acende seu farol</h3><p>Define sua meta de superação e aciona o suporte inteligente sempre que precisar.</p></div>
-      </div>
-      <div class="step">
-        <span class="n">03</span>
-        <div><h3>Você constrói sua sequência</h3><p>Dia após dia, o contador cresce — e o Farol te apoia nos momentos em que o desafio aperta.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<section class="faq" id="faq">
-  <div class="wrap">
-    <div class="faq-head reveal">
-      <h2>Dúvidas frequentes.</h2>
-    </div>
-    <div class="faq-list reveal">
-      <div class="faq-item">
-        <div class="faq-question">O Farol bloqueia completamente o celular? <span>+</span></div>
-        <div class="faq-answer">Não. O Farol trabalha a sua consciência e o seu autocontrole através de contadores precisos, modo monocromático e suporte nos momentos de impulso.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">E se eu escorregar e quebrar minha sequência? <span>+</span></div>
-        <div class="faq-answer">Sem culpa ou julgamentos. Recomeçar faz parte do processo. O Farol preserva seu histórico e te ajuda a levantar mais forte no dia seguinte.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">Como funciona a comunidade anônima? <span>+</span></div>
-        <div class="faq-answer">Você interage com outras pessoas que compartilham da mesma meta, sem exposição de perfis ou nomes reais. É um espaço seguro e moderado de apoio mútuo.</div>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<section class="cta" id="comecar">
-  <div class="wrap">
-    <h2 class="reveal">Sua vida sem o peso do vício não é sobre privação. É sobre presença.</h2>
-    <p class="reveal">Entre na lista de espera do Farol e seja avisado assim que o app abrir pro seu grupo.</p>
-    <div class="hero-actions reveal">
-      <button class="btn-primary" onclick="openModal()">Entrar na lista de espera</button>
-    </div>
-  </div>
-</section>
- 
+</main>
+
 <footer>
-  <span>© 2026 Farol — Todos os direitos reservados.</span>
-  <div class="links">
-    <a href="#">Sobre</a>
-    <a href="#">Privacidade</a>
-    <a href="#">Contato</a>
+  <div class="foot">
+    <span>© 2026 Farol. Feito por um grupo de amigos.</span>
+    <nav><a href="#quem">Sobre</a><a href="#perguntas">Privacidade</a><a href="#entrar">Contato</a></nav>
   </div>
 </footer>
- 
-<!-- MODAL DE AUTENTICAÇÃO -->
-<div class="modal" id="authModal">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h3 id="modalTitle">Entrar na Conta</h3>
-    <p id="modalSubtitle">Acesse seus dados e mantenha seu progresso salvo.</p>
-    <form onsubmit="handleAuthSubmit(event)">
-      <div class="form-group" id="nameGroup" style="display: none;">
-        <label>Nome</label>
-        <input type="text" id="authName" placeholder="Seu nome completo">
-      </div>
-      <div class="form-group">
-        <label>E-mail</label>
-        <input type="email" id="authEmail" required placeholder="seu@email.com">
-      </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" id="authPassword" required placeholder="••••••••">
-      </div>
-      <button type="submit" class="btn-submit" id="authSubmitBtn">Entrar</button>
-    </form>
-    <div class="form-switch">
-      <span id="switchText" onclick="toggleAuthMode()">Não tem uma conta? Cadastre-se</span>
+
+<!-- FOCO -->
+<div class="focus-ov" id="focusOv">
+  <div class="focus-card">
+    <span class="moon">🌙 Não Perturbe</span>
+    <div class="clock" id="clock">25:00</div>
+    <div class="chips" id="chips" style="margin-bottom:14px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+      <button class="chip" onclick="setMin(5,this)">5</button><button class="chip" onclick="setMin(15,this)">15</button><button class="chip sel" onclick="setMin(25,this)">25</button><button class="chip" onclick="setMin(45,this)">45</button><button class="chip" onclick="setMin(60,this)">60</button>
+    </div>
+    <div class="tips">Para silenciar de verdade: <b>iPhone</b>, Ajustes › Foco › Não Perturbe. <b>Android</b>, Configurações › Sons › Não perturbe.</div>
+    <div class="row center" style="justify-content:center">
+      <button class="btn btn-p" id="fbtn" onclick="toggleFocus()">Iniciar</button>
+      <button class="btn btn-g" onclick="closeFocus()">Fechar</button>
     </div>
   </div>
 </div>
- 
+
+<!-- SOS -->
+<div class="sos" id="sos">
+  <button class="x" onclick="closeSOS()">✕</button>
+  <span class="eyebrow">Impulso agora</span>
+  <h2 style="margin-top:12px">Respire comigo.</h2>
+  <div class="breath"></div>
+  <p class="mute">Inspire enquanto o círculo cresce, segure e solte devagar. Repita até a vontade passar.</p>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('mainNav');
-    if (window.scrollY > 40) { nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
-  });
- 
-  const els = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.12 });
-  els.forEach(el => io.observe(el));
- 
-  // --- HÁBITOS E CALCULADORA DE DIAS ---
-  let journeyData = JSON.parse(localStorage.getItem('farol_journey') || JSON.stringify({
-    habit: 'Redes Sociais em Excesso',
-    startDate: new Date(Date.now() - 12 * 86400000).toISOString().split('T')[0]
-  }));
- 
-  document.getElementById('habitNameInput').value = journeyData.habit;
-  document.getElementById('habitStartDate').value = journeyData.startDate;
- 
-  function updateJourneyDisplay() {
-    const start = new Date(journeyData.startDate);
-    const now = new Date();
-    const diffTime = Math.max(0, now - start);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const diffMins = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
-    document.getElementById('liveDaysCounter').textContent = diffDays + (diffDays === 1 ? ' Dia' : ' Dias');
-    document.getElementById('liveTimeDetail').textContent = `${diffHours} horas e ${diffMins} minutos acumulados na jornada atual.`;
-    document.getElementById('phoneStreakVal').textContent = diffDays;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DAY = 864e5;
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch { return d } };
+const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+const pad = n => String(n).padStart(2, '0');
+const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 2600); }
+
+/* TEMA */
+let theme = localStorage.getItem('farol.theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+function applyTheme() { document.documentElement.dataset.theme = theme; $('#themeBtn').textContent = theme === 'dark' ? '☀️' : '🌙'; }
+function toggleTheme() { theme = theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('farol.theme', theme); applyTheme(); }
+applyTheme();
+
+/* CONTADOR */
+let start = +localStorage.getItem('farol.start') || 0;
+let fish = +localStorage.getItem('farol.fish') || 0;
+$('#fishN').textContent = fish;
+$('#habit').value = localStorage.getItem('farol.habit') || '';
+if (start) $('#start').value = new Date(start - new Date(start).getTimezoneOffset() * 6e4).toISOString().slice(0, 16);
+const days = () => start ? Math.max(0, Math.floor((Date.now() - start) / DAY)) : 0;
+const TIPS = [
+  'A maioria das recaídas acontece à noite e no tédio. Deixe o celular carregando fora do quarto.',
+  'Antes de abrir uma rede, espere 10 minutos. Quase toda vontade forte passa nesse intervalo.',
+  'Tenha sempre à mão uma atividade pronta: uma receita, um alongamento ou uma palavra em Libras.',
+  'Dias difíceis acontecem. O que importa é voltar no mesmo dia, sem se culpar.'
+];
+const QUOTES = [
+  'Cada hora que você devolve a si mesmo já é uma vitória.',
+  'Você não precisa ser perfeito. Só precisa voltar.',
+  'Seu tempo é a coisa mais valiosa que você tem. Use com calma.',
+  'Um dia de cada vez. A sequência é construída assim.',
+  'Você está mais forte do que o impulso de agora.'
+];
+function render() {
+  const d = start ? Date.now() - start : 0, n = days();
+  $('#days').textContent = n + (n === 1 ? ' Dia' : ' Dias');
+  $('#hms').textContent = `${Math.floor(d % DAY / 36e5)} horas e ${Math.floor(d % 36e5 / 6e4)} minutos decorridos.`;
+  const p = Math.min(n / 30, 1) * 100;
+  $('#bar').style.width = p + '%'; $('#car').style.left = p + '%';
+  $('#raceCar').style.left = `calc(${p * .85}% + 10px)`;
+  $('#raceMsg').textContent = start ? `${n} dia(s) limpos. Meta: 30.` : 'Registre sua jornada para acelerar.';
+  document.querySelectorAll('.badge').forEach(b => b.classList.toggle('on', !!start && n >= +b.dataset.min));
+  $('#tip').innerHTML = '<b>Dica:</b> ' + TIPS[Math.floor(Date.now() / 36e5) % TIPS.length];
+}
+function saveStart() {
+  const v = $('#start').value;
+  if (!v) return toast('Escolha uma data primeiro');
+  start = new Date(v).getTime();
+  localStorage.setItem('farol.start', start);
+  localStorage.setItem('farol.habit', $('#habit').value);
+  render(); toast('Jornada salva 🔥');
+}
+function relapse() {
+  start = Date.now(); localStorage.setItem('farol.start', start);
+  $('#start').value = new Date(start - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 16);
+  render(); toast('Recomeçar faz parte. Vamos de novo 💙');
+}
+let hours = load('farol.hours', {});
+function renderChart() {
+  const bars = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const h = hours[keyOf(d)] || 0;
+    bars.push(`<div class="bar"><span>${h ? h + 'h' : ''}</span><i style="height:${Math.min(h / 8, 1) * 100}%"></i><span>${['D','S','T','Q','Q','S','S'][d.getDay()]}</span></div>`);
   }
- 
-  function saveJourneyData() {
-    const habit = document.getElementById('habitNameInput').value.trim() || 'Hábito Monitorado';
-    const startDate = document.getElementById('habitStartDate').value || new Date().toISOString().split('T')[0];
-    journeyData = { habit, startDate };
-    localStorage.setItem('farol_journey', JSON.stringify(journeyData));
-    updateJourneyDisplay();
-    alert('Jornada atualizada e salva com sucesso!');
-  }
- 
-  function resetJourneyData() {
-    if(confirm('Deseja registrar uma recaída e reiniciar a contagem atual? Seu histórico permanece protegido.')) {
-      journeyData.startDate = new Date().toISOString().split('T')[0];
-      localStorage.setItem('farol_journey', JSON.stringify(journeyData));
-      updateJourneyDisplay();
-      alert('Nova contagem iniciada. Você é capaz de continuar firme!');
+  $('#chart').innerHTML = bars.join('');
+}
+function logHours() {
+  const v = parseFloat($('#hoursIn').value);
+  if (isNaN(v) || v < 0 || v > 24) return toast('Digite entre 0 e 24 horas');
+  hours[keyOf(new Date())] = v; save('farol.hours', hours); $('#hoursIn').value = '';
+  renderChart(); toast('Registrado 🌊');
+}
+let qi = 0;
+function rotateQuote() { const q = $('#quote'); q.style.opacity = 0; setTimeout(() => { q.textContent = '“' + QUOTES[qi] + '”'; q.style.opacity = 1; qi = (qi + 1) % QUOTES.length; }, 500); }
+rotateQuote(); setInterval(rotateQuote, 7000);
+render(); renderChart(); setInterval(render, 30000);
+
+/* FOCO */
+let fTimer = null, fMin = 25, fLeft = 25 * 60;
+const drawClock = () => $('#clock').textContent = pad(Math.floor(fLeft / 60)) + ':' + pad(fLeft % 60);
+function openFocus() { $('#focusOv').classList.add('open'); }
+function closeFocus() { clearInterval(fTimer); fTimer = null; document.body.classList.remove('mono'); $('#fbtn').textContent = 'Iniciar'; $('#focusOv').classList.remove('open'); }
+function setMin(m, el) { if (fTimer) return; fMin = m; fLeft = m * 60; document.querySelectorAll('#chips .chip').forEach(c => c.classList.remove('sel')); el.classList.add('sel'); drawClock(); }
+function toggleFocus() {
+  if (fTimer) { clearInterval(fTimer); fTimer = null; document.body.classList.remove('mono'); $('#fbtn').textContent = 'Retomar'; return; }
+  document.body.classList.add('mono'); $('#fbtn').textContent = 'Pausar';
+  fTimer = setInterval(() => {
+    fLeft--; drawClock();
+    if (fLeft <= 0) {
+      clearInterval(fTimer); fTimer = null; document.body.classList.remove('mono');
+      fLeft = fMin * 60; drawClock(); $('#fbtn').textContent = 'Iniciar';
+      toast('Sessão concluída! 🎉');
     }
-  }
- 
-  setInterval(updateJourneyDisplay, 30000);
-  updateJourneyDisplay();
- 
-  // --- MODO FOCO ---
-  let focusTimeLeft = 25 * 60;
-  let focusTimerId = null;
-  let isFocusRunning = false;
- 
-  function setFocusTime(mins) {
-    if (isFocusRunning) return;
-    focusTimeLeft = mins * 60;
-    updateFocusDisplay();
-  }
- 
-  function updateFocusDisplay() {
-    const m = Math.floor(focusTimeLeft / 60);
-    const s = focusTimeLeft % 60;
-    document.getElementById("focusTimerDisplay").textContent = String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
-  }
- 
-  function toggleFocusTimer() {
-    const btn = document.getElementById("startFocusBtn");
-    if (!isFocusRunning) {
-      isFocusRunning = true;
-      btn.textContent = "Pausar";
-      focusTimerId = setInterval(() => {
-        if (focusTimeLeft > 0) {
-          focusTimeLeft--;
-          updateFocusDisplay();
-        } else {
-          clearInterval(focusTimerId);
-          isFocusRunning = false;
-          btn.textContent = "Iniciar Sessão de Foco";
-          alert("Parabéns! Sessão de foco concluída com sucesso.");
-        }
-      }, 1000);
-    } else {
-      clearInterval(focusTimerId);
-      isFocusRunning = false;
-      btn.textContent = "Continuar";
+  }, 1000);
+}
+
+/* PESCARIA */
+const pool = ['🐟', '🐠', '🐡', '🦑', '🐙', '🦈', '🐬'];
+function cast() {
+  const s = $('#catchStage'); s.textContent = '🎣'; $('#catch').textContent = 'Aguardando peixe...';
+  setTimeout(() => {
+    const f = pool[Math.floor(Math.random() * pool.length)];
+    s.textContent = f; fish++; localStorage.setItem('farol.fish', fish);
+    $('#catch').innerHTML = `Você pescou um ${f}! Peixes: <span id="fishN">${fish}</span>`;
+  }, 1300);
+}
+
+/* APRENDER */
+const BLOCKS = {
+  'Culinária': { d: 'Receitas simples, com passo a passo escrito. Comece pelas mais rápidas.', items: [
+    { t: 'Omelete simples', m: '10 min', s: ['Bata 2 ovos com uma pitada de sal.', 'Aqueça uma frigideira com um fio de azeite.', 'Despeje os ovos e mexa devagar até firmar.', 'Dobre ao meio e sirva.'] },
+    { t: 'Arroz de panela', m: '25 min', s: ['Lave 1 xícara de arroz até a água sair limpa.', 'Refogue com alho e óleo por 1 minuto.', 'Adicione 2 xícaras de água e sal.', 'Tampe, deixe ferver e cozinhe em fogo baixo por 15 min.'] },
+    { t: 'Vitamina de banana', m: '5 min', s: ['Coloque 1 banana, 1 copo de leite e 1 colher de aveia no liquidificador.', 'Bata por 30 segundos e sirva gelado.'] }
+  ]},
+  'Esportes': { d: 'Exercícios para fazer em casa ou na rua, sem equipamento.', items: [
+    { t: 'Alongamento de 5 minutos', m: '5 min', s: ['Gire os ombros para trás 10 vezes.', 'Incline a cabeça de um lado para o outro, 10 segundos cada.', 'Toque os pés e segure 20 segundos.'] },
+    { t: 'Caminhada de 20 minutos', m: '20 min', s: ['Saia com um ritmo confortável, em que ainda dá para conversar.', 'Mantenha postura ereta e braços soltos.', 'Termine com 2 minutos de passo lento.'] },
+    { t: 'Agachamento correto', m: '10 min', s: ['Pés na largura dos ombros, pontas levemente para fora.', 'Desça jogando o quadril para trás, com o peito erguido.', 'Suba empurrando o chão com os calcanhares. Faça 3 séries de 10.'] }
+  ]},
+  'Libras': { d: 'Primeiros sinais da Língua Brasileira de Sinais, para conversar com a comunidade surda.', items: [
+    { t: 'Alfabeto manual', m: 'iniciante', s: ['Pratique uma letra por dia, começando por A, B e C.', 'Observe a posição da mão e a direção dos dedos.', 'Repita olhando um espelho para conferir o formato.'] },
+    { t: 'Cumprimentos básicos', m: 'iniciante', s: ['OI: mão aberta, palma para frente, movendo de leve.', 'OBRIGADO: mão aberta sobre o queixo, descendo para a frente.', 'TUDO BEM: polegar e indicador formando um "ok", girando no peito.'] },
+    { t: 'Números de 1 a 5', m: 'iniciante', s: ['Use a mão direita com o número de dedos correspondente.', 'O polegar sozinho representa o 1 e a mão toda aberta, o 5.'] }
+  ]}
+};
+let activeBlock = 'Culinária';
+function renderLearn() {
+  $('#ltabs').innerHTML = Object.keys(BLOCKS).map(k => `<button class="chip ${k === activeBlock ? 'sel' : ''}" onclick="pickBlock('${k}')">${k}</button>`).join('');
+  $('#lblocks').innerHTML = Object.entries(BLOCKS).map(([k, b]) => `
+    <div class="block ${k === activeBlock ? 'on' : ''}">
+      <div class="glass block-head"><span class="eyebrow">Bloco</span><h3 style="font-size:26px;margin-top:6px">${k}</h3><p class="mute">${b.d}</p></div>
+      <div class="lessons">${b.items.map(it => `
+        <article class="glass lesson">
+          <span class="meta">${it.m}</span>
+          <h3>${esc(it.t)}</h3>
+          <ol>${it.s.map(x => `<li>${esc(x)}</li>`).join('')}</ol>
+          <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent(it.t + ' ' + k + ' passo a passo')}">▶ Ver vídeos sobre isso</a>
+        </article>`).join('')}
+      </div>
+    </div>`).join('');
+}
+function pickBlock(k) { activeBlock = k; renderLearn(); }
+renderLearn();
+
+/* COMUNIDADE */
+const TAGS = [['all', 'Todos'], ['🌱', 'Começando'], ['💡', 'Dicas'], ['🛡️', 'Difíceis'], ['🏆', 'Conquistas']];
+const COLORS = ['#1b6fe0', '#e0245e', '#17a673', '#f08c00', '#7048e8', '#0c8599'];
+let tag = 'all';
+let posts = load('farol.posts', [
+  { id: 1, a: 'Anônimo_94', t: '🌱', c: 'Consegui completar 7 dias limpos hoje! A respiração guiada me salvou ontem.', time: '2h', l: 12 },
+  { id: 2, a: 'Guia_Silva', t: '💡', c: 'Dica: deixe o celular fora do quarto. Parece pouco, mas muda a noite inteira.', time: '5h', l: 34 },
+  { id: 3, a: 'Ana_R', t: '🛡️', c: 'Tive um dia difícil e deslizei. Mas recomecei de manhã. Cada hora conta.', time: '1d', l: 27 },
+]);
+let liked = load('farol.liked', []);
+function renderPosts() {
+  $('#tabs').innerHTML = TAGS.map(([k, l]) => `<button class="chip ${k === tag ? 'sel' : ''}" onclick="setTag('${k}')">${k === 'all' ? l : k + ' ' + l}</button>`).join('');
+  const list = posts.filter(p => tag === 'all' || p.t === tag);
+  $('#posts').innerHTML = list.map(p => {
+    const on = liked.includes(p.id);
+    return `<article class="post"><div class="av" style="background:${COLORS[p.a.length % COLORS.length]}">${esc(p.a[0])}</div><div class="post-b">
+      <div class="post-h"><b>${esc(p.a)}</b> <span>· ${p.time}</span></div>
+      <p>${esc(p.c)}</p>
+      <div class="acts2"><button class="${on ? 'on' : ''}" onclick="like(${p.id})">${on ? '♥' : '♡'} ${p.l}</button><button onclick="toast('Respostas em breve 💬')">💬 Responder</button></div>
+    </div></article>`;
+  }).join('') || '<p class="mute" style="padding:20px">Nada aqui ainda. Seja o primeiro a publicar.</p>';
+}
+function setTag(k) { tag = k; renderPosts(); }
+function like(id) {
+  const p = posts.find(x => x.id === id);
+  if (liked.includes(id)) { liked = liked.filter(x => x !== id); p.l--; } else { liked.push(id); p.l++; }
+  save('farol.liked', liked); save('farol.posts', posts); renderPosts();
+}
+function publish() {
+  const v = $('#postIn').value.trim(); if (!v) return;
+  posts.unshift({ id: Date.now(), a: 'Anônimo_' + (10 + Math.floor(Math.random() * 89)), t: '🌱', c: v, time: 'agora', l: 0 });
+  $('#postIn').value = ''; save('farol.posts', posts); tag = 'all'; renderPosts(); toast('Publicado de forma anônima ✨');
+}
+renderPosts();
+
+/* LUMEN (IA quando disponível, senão respostas prontas) */
+const hist = [];
+const fallback = [
+  [/vontade|celular|tela|redes/i, 'Vontade forte costuma passar em cerca de 10 minutos. Saia do cômodo, beba um copo de água e respire fundo 3 vezes. Quer abrir o modo foco?'],
+  [/recaída|recaida|escorreg|deslize|falhei/i, 'Recaída não apaga o seu progresso. O que importa é o próximo passo. Quer registrar e recomeçar agora?'],
+  [/calma|respir|ansios/i, 'Vamos juntos: inspire por 4 segundos, segure por 4 e solte por 6. Repita três vezes.'],
+];
+function addAI(text, me) {
+  const el = document.createElement('div'); el.className = 'bub' + (me ? ' me' : '');
+  el.textContent = text; $('#ai').appendChild(el); $('#ai').scrollTop = 1e6; return el;
+}
+function quick(t) { $('#aiIn').value = t; aiSend(); }
+async function aiSend() {
+  const v = $('#aiIn').value.trim(); if (!v) return;
+  $('#aiIn').value = ''; addAI(v, true);
+  hist.push(`Usuário: ${v}`);
+  const bubble = addAI('…');
+  let answered = false;
+  try {
+    const sample = typeof claude !== 'undefined' ? await claude.use('sample') : null;
+    if (sample) {
+      const prompt = `Você é o Lumen, assistente acolhedor do Farol, app criado por um grupo de amigos para diminuir o vício em redes sociais. Responda em português, em até 3 frases curtas, sem julgamentos e sem sermão. Se fizer sentido, termine com uma pergunta simples. Dias limpos do usuário: ${days()}.\n\nConversa até agora:\n${hist.slice(-6).join('\n')}\nLumen:`;
+      await sample(prompt, { modelTier: 'quick', cache: false, onText: ({ text }) => { bubble.textContent = text; $('#ai').scrollTop = 1e6; } });
+      answered = true;
     }
+  } catch (e) { /* usa a resposta de reserva */ }
+  if (!answered) {
+    const hit = fallback.find(([re]) => re.test(v));
+    bubble.textContent = hit ? hit[1] : 'Obrigado por compartilhar. Estou com você. O que está pesando mais agora?';
   }
- 
-  function resetFocusTimer() {
-    clearInterval(focusTimerId);
-    isFocusRunning = false;
-    focusTimeLeft = 25 * 60;
-    document.getElementById("startFocusBtn").textContent = "Iniciar Sessão de Foco";
-    updateFocusDisplay();
+  hist.push(`Lumen: ${bubble.textContent}`);
+}
+
+/* DEPOIMENTOS */
+const testimonials = [
+  ['Mariana S.', 'Estudante · 34 dias', 'O contador e o Lumen me deram a pausa exata entre o impulso e o deslize.', '#e0245e', 'M'],
+  ['Lucas M.', 'Trabalha em TI · 62 dias', 'O SOS salvou meus finais de tarde. Uma respiração de 1 minuto corta a ansiedade.', '#1b6fe0', 'L'],
+  ['Beatriz R.', 'Designer · 19 dias', 'Finalmente um app que não me faz sentir culpada quando eu falho. Ele me ajuda a levantar.', '#17a673', 'B'],
+  ['Pedro A.', 'Vestibulando · 45 dias', 'A agenda com metas mudou minha rotina. Agora estudo antes de abrir qualquer rede.', '#f08c00', 'P'],
+];
+let ti = 0;
+$('#tc').innerHTML = testimonials.map(([n, r, q, c, i], k) => `<figure class="tcard glass ${k === 0 ? 'on' : ''}"><q>${q}</q><figcaption class="who"><div class="av" style="background:${c}">${i}</div><div><b>${n}</b><small>${r}</small></div></figcaption></figure>`).join('');
+$('#tdots').innerHTML = testimonials.map((_, k) => `<button class="${k === 0 ? 'on' : ''}" onclick="showT(${k})"></button>`).join('');
+function showT(k) {
+  ti = k;
+  document.querySelectorAll('.tcard').forEach((c, j) => c.classList.toggle('on', j === k));
+  document.querySelectorAll('#tdots button').forEach((d, j) => d.classList.toggle('on', j === k));
+}
+setInterval(() => showT((ti + 1) % testimonials.length), 5500);
+
+/* AGENDA */
+let ev = load('farol.ev', {});
+let goals = load('farol.goals', []);
+let cur = new Date(); cur.setDate(1);
+let sel = keyOf(new Date());
+function moveMonth(n) { cur.setMonth(cur.getMonth() + n); renderCal(); }
+function renderCal() {
+  const y = cur.getFullYear(), m = cur.getMonth();
+  $('#mlabel').textContent = cur.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  let h = ''; for (let i = 0; i < new Date(y, m, 1).getDay(); i++) h += '<span></span>';
+  const n = new Date(y, m + 1, 0).getDate(), today = keyOf(new Date());
+  for (let d = 1; d <= n; d++) {
+    const k = keyOf(new Date(y, m, d));
+    h += `<button class="day ${k === sel ? 'sel' : ''} ${k === today ? 'today' : ''}" onclick="pick('${k}')">${d}${ev[k] ? '<i></i>' : ''}</button>`;
   }
- 
-  function toggleMonoMode() {
-    const checked = document.getElementById('monoModeToggle').checked;
-    if (checked) { document.body.classList.add('mono-mode'); } else { document.body.classList.remove('mono-mode'); }
+  $('#cal').innerHTML = h; renderDay();
+}
+function pick(k) { sel = k; renderCal(); }
+function renderDay() {
+  const list = ev[sel] || [];
+  $('#dayTitle').textContent = new Date(sel + 'T12:00').toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+  $('#dayList').innerHTML = list.length ? list.map((e, i) => `<li><b>${esc(e.h)}</b>${esc(e.t)}<button onclick="delEv(${i})">×</button></li>`).join('') : '<li class="mute" style="background:none">Nenhum compromisso neste dia.</li>';
+}
+function addEv() {
+  const t = $('#evT').value.trim(); if (!t) return;
+  (ev[sel] = ev[sel] || []).push({ t, h: $('#evH').value || '--:--' });
+  ev[sel].sort((a, b) => a.h.localeCompare(b.h));
+  $('#evT').value = ''; save('farol.ev', ev); renderCal();
+}
+function delEv(i) { ev[sel].splice(i, 1); if (!ev[sel].length) delete ev[sel]; save('farol.ev', ev); renderCal(); }
+function renderGoals() {
+  $('#goals').innerHTML = goals.map((g, i) => `<label class="goal ${g.d ? 'done' : ''}"><input type="checkbox" ${g.d ? 'checked' : ''} onchange="toggleGoal(${i})"><span>${esc(g.t)}</span></label>`).join('') || '<p class="mute" style="font-size:14px">Crie sua primeira meta.</p>';
+  const done = goals.filter(g => g.d).length;
+  $('#gbar').style.width = (goals.length ? done / goals.length * 100 : 0) + '%';
+  $('#gtxt').textContent = `${done} de ${goals.length} concluídas`;
+}
+function addGoal() { const t = $('#goalIn').value.trim(); if (!t) return; goals.push({ t, d: false }); $('#goalIn').value = ''; save('farol.goals', goals); renderGoals(); }
+function toggleGoal(i) { goals[i].d = !goals[i].d; save('farol.goals', goals); renderGoals(); }
+renderCal(); renderGoals();
+
+/* FAQ */
+function filterFaq() {
+  const q = $('#faqQ').value.toLowerCase();
+  document.querySelectorAll('#faq details').forEach(d => d.style.display = d.textContent.toLowerCase().includes(q) ? '' : 'none');
+}
+
+/* LOGIN (armazenado no navegador; não é um sistema de contas real) */
+let mode = 'in';
+function authMode(m) {
+  mode = m;
+  $('#tabIn').classList.toggle('on', m === 'in'); $('#tabUp').classList.toggle('on', m === 'up');
+  $('#upFields').classList.toggle('hidden', m === 'in');
+}
+let photoData = '';
+function pickPhoto(input) {
+  const f = input.files[0]; if (!f) return;
+  const img = new Image(), url = URL.createObjectURL(f);
+  img.onload = () => {
+    const c = document.createElement('canvas'); c.width = c.height = 160;
+    const s = Math.min(img.width, img.height), sx = (img.width - s) / 2, sy = (img.height - s) / 2;
+    c.getContext('2d').drawImage(img, sx, sy, s, s, 0, 0, 160, 160);
+    photoData = c.toDataURL('image/jpeg', .85);
+    $('#photoPick').style.backgroundImage = `url(${photoData})`;
+    $('#photoIcon').style.display = 'none';
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
+}
+function doAuth() {
+  const mail = $('#uMail').value.trim(), pass = $('#uPass').value;
+  if (!/^\S+@\S+\.\S+$/.test(mail)) return toast('Digite um e-mail válido');
+  if (pass.length < 6) return toast('A senha precisa ter pelo menos 6 caracteres');
+  const saved = load('farol.user', null);
+  if (mode === 'in') {
+    if (!saved || saved.mail !== mail || saved.pass !== pass) return toast('E-mail ou senha incorretos');
+  } else {
+    const name = $('#uName').value.trim() || mail.split('@')[0];
+    save('farol.user', { name, mail, pass, photo: photoData });
   }
- 
-  // --- JOGOS ---
-  function playFishingGame() {
-    alert("🎣 Você lançou a linha no farol e capturou um 'Peixe Raro da Paciência'! Ganhou +20 XP de disciplina.");
+  renderAuth(); toast('Bem-vindo ao Farol 💙');
+}
+function renderAuth() {
+  const u = load('farol.user', null);
+  const logged = !!u && localStorage.getItem('farol.session') === '1';
+  $('#loginView').classList.toggle('hidden', logged);
+  $('#profileView').classList.toggle('hidden', !logged);
+  $('#loginBtn').classList.toggle('hidden', logged);
+  $('#navAvatar').style.display = logged ? 'block' : 'none';
+  if (logged) {
+    const pa = u.photo ? `url(${u.photo})` : '';
+    $('#pAv').style.backgroundImage = pa; $('#pAv').textContent = u.photo ? '' : u.name[0].toUpperCase();
+    $('#pAv').style.background = u.photo ? `${pa} center/cover` : '#1b6fe0';
+    $('#pName').textContent = u.name; $('#pMail').textContent = u.mail;
+    $('#navAvatar').src = u.photo || '';
+    if (!u.photo) $('#navAvatar').style.display = 'none';
   }
-  function checkCarProgress() {
-    alert("🏎️ Seu carrinho na pista avançou automaticamente com base na sua consistência na calculadora!");
+}
+function logout() { localStorage.removeItem('farol.session'); renderAuth(); toast('Você saiu da conta'); }
+// sessão sempre que alguém entra ou cria a conta
+const origDoAuth = doAuth;
+doAuth = function () { const before = load('farol.user', null); origDoAuth(); if (load('farol.user', null)) localStorage.setItem('farol.session', '1'); };
+renderAuth();
+
+/* MODAIS */
+function openSOS() { $('#sos').classList.add('open'); }
+function closeSOS() { $('#sos').classList.remove('open'); }
+
+/* REVEAL */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+/* CENA: farol numa ilha, com barcos e o feixe de luz */
+const dpr = Math.min(2, devicePixelRatio || 1);
+const sea = $('#sea'), sx = sea.getContext('2d');
+let W, H;
+function sizeSea() { W = sea.width = innerWidth * dpr; H = sea.height = innerHeight * dpr; }
+sizeSea(); addEventListener('resize', sizeSea);
+const stars = Array.from({ length: 80 }, () => ({ x: Math.random(), y: Math.random() * .6, r: Math.random() * 1.3 + .3, s: Math.random() * 3 + 1 }));
+const mixC = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
+function scene(c, w, h, t, night, p) {
+  const u = Math.min(w, h) / 620;
+  const skyTop = night ? [6, 13, 26] : [234, 245, 255], skyBot = night ? [18, 46, 80] : [150, 200, 240];
+  const seaTop = night ? [10, 30, 56] : [70, 140, 200], seaBot = night ? [3, 10, 22] : [13, 43, 74];
+  const sea1 = mixC(seaTop, seaBot, Math.min(1, p || 0));
+  const g = c.createLinearGradient(0, 0, 0, h);
+  g.addColorStop(0, `rgb(${skyTop})`); g.addColorStop(.52, `rgb(${skyBot})`); g.addColorStop(.6, `rgb(${sea1})`); g.addColorStop(1, `rgb(${seaBot})`);
+  c.fillStyle = g; c.fillRect(0, 0, w, h);
+  if (night) stars.forEach(st => { c.globalAlpha = .35 + .65 * Math.abs(Math.sin(t * st.s)); c.fillStyle = '#fff'; c.beginPath(); c.arc(st.x * w, st.y * h * .9, st.r * dpr, 0, 7); c.fill(); });
+  c.globalAlpha = 1;
+  // ilha
+  const ix = w * .74, iy = h * .66, ir = Math.min(w * .22, 260 * u);
+  const landCol = night ? '#1d3b2a' : '#6fa86b', sandCol = night ? '#4a4a3a' : '#e8d9a8';
+  c.fillStyle = sandCol; c.beginPath(); c.ellipse(ix, iy + 6 * u, ir * 1.02, ir * .22, 0, 0, 7); c.fill();
+  c.fillStyle = landCol; c.beginPath(); c.ellipse(ix, iy, ir, ir * .3, 0, 0, 7); c.fill();
+  // farol
+  const baseY = iy - ir * .08, topY = baseY - 170 * u;
+  const lx = ix, ly = topY;
+  c.fillStyle = night ? '#c9d6e6' : '#f5f8fc';
+  c.beginPath(); c.moveTo(lx - 22 * u, baseY); c.lineTo(lx - 12 * u, topY); c.lineTo(lx + 12 * u, topY); c.lineTo(lx + 22 * u, baseY); c.closePath(); c.fill();
+  c.fillStyle = '#c0392b';
+  c.fillRect(lx - 14 * u, topY + 30 * u, 28 * u, 10 * u); c.fillRect(lx - 13 * u, topY + 70 * u, 26 * u, 8 * u);
+  // cabine da lâmpada
+  c.fillStyle = night ? '#1b2a40' : '#0d2b4a';
+  c.fillRect(lx - 15 * u, ly - 16 * u, 30 * u, 16 * u);
+  // feixe giratório
+  const ang = t * .7, L = Math.max(w, h) * 1.2;
+  for (let k = 0; k < 2; k++) {
+    const a = ang + k * Math.PI;
+    const bg = c.createLinearGradient(lx, ly, lx + Math.cos(a) * L, ly + Math.sin(a) * L);
+    const col = night ? '255,236,170' : '255,220,140';
+    bg.addColorStop(0, `rgba(${col},${night ? .55 : .5})`); bg.addColorStop(1, `rgba(${col},0)`);
+    c.beginPath(); c.moveTo(lx, ly - 8 * u);
+    c.lineTo(lx + Math.cos(a - .1) * L, ly - 8 * u + Math.sin(a - .1) * L);
+    c.lineTo(lx + Math.cos(a + .1) * L, ly - 8 * u + Math.sin(a + .1) * L);
+    c.closePath(); c.fillStyle = bg; c.fill();
   }
- 
-  // --- COMUNIDADE ---
-  function switchChannel(ch) {
-    document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    const box = document.getElementById('communityMessages');
-    box.innerHTML = `<div class="message peer"><b>Canal ${ch}:</b> Bem-vindo ao canal. Compartilhe suas experiências com respeito e apoio mútuo.</div>`;
+  c.fillStyle = '#ffd27a'; c.shadowColor = '#ffd27a'; c.shadowBlur = 30 * u;
+  c.beginPath(); c.arc(lx, ly - 8 * u, 9 * u, 0, 7); c.fill(); c.shadowBlur = 0;
+  // barcos em volta da ilha
+  for (let k = 0; k < 4; k++) {
+    const th = t * .12 + k * Math.PI / 2 + .6;
+    const bx = ix + Math.cos(th) * ir * 1.55, by = iy + ir * .22 + Math.sin(th) * ir * .42 + ir * .25;
+    const bob = Math.sin(t * 1.6 + k) * 3 * u, sc = (k % 2 ? .8 : 1) * u;
+    const flip = Math.cos(th) < 0 ? -1 : 1;
+    c.save(); c.translate(bx, by + bob); c.scale(flip * sc, sc);
+    c.fillStyle = night ? '#e7edf6' : '#ffffff';
+    c.beginPath(); c.moveTo(-40, 0); c.lineTo(40, 0); c.lineTo(28, 14); c.lineTo(-30, 14); c.closePath(); c.fill();
+    c.fillStyle = ['#e0245e', '#1b6fe0', '#f08c00', '#17a673'][k];
+    c.fillRect(-18, -2, 14, 8); c.fillRect(-4, -2, 12, 8);
+    c.strokeStyle = night ? '#e7edf6' : '#27405e'; c.lineWidth = 2;
+    c.beginPath(); c.moveTo(4, 0); c.lineTo(4, -34); c.stroke();
+    c.fillStyle = ['#fff', '#ffd27a', '#fff', '#ffd27a'][k];
+    c.beginPath(); c.moveTo(6, -32); c.lineTo(26, -10); c.lineTo(6, -10); c.closePath(); c.fill();
+    c.restore();
+    // reflexo
+    c.fillStyle = night ? 'rgba(255,240,190,.12)' : 'rgba(13,43,74,.08)';
+    c.fillRect(bx - 16 * u, by + 18 * u, 32 * u, 6 * u);
   }
- 
-  function handleCommunityKey(e) { if (e.key === 'Enter') sendCommunityMessage(); }
- 
-  function sendCommunityMessage() {
-    const input = document.getElementById('communityInput');
-    const txt = input.value.trim();
-    if (!txt) return;
-    const badWords = ['idiota', 'droga', 'xingamento'];
-    if (badWords.some(w => txt.toLowerCase().includes(w))) {
-      alert("⚠️ Moderação do Farol: Vamos manter a comunidade respeitosa. Essa mensagem contém uma expressão inadequada. Edite o texto antes de enviar.");
-      return;
-    }
-    const box = document.getElementById('communityMessages');
-    const div = document.createElement('div');
-    div.className = 'message user';
-    const b = document.createElement('b');
-    b.textContent = 'Você: ';
-    div.appendChild(b);
-    div.appendChild(document.createTextNode(txt));
-    box.appendChild(div);
-    input.value = '';
-    box.scrollTop = box.scrollHeight;
+  // ondas
+  for (let L2 = 0; L2 < 3; L2++) {
+    const yb = h * (.8 + L2 * .06), amp = (9 - L2 * 2) * u;
+    c.beginPath(); c.moveTo(0, h);
+    for (let x = 0; x <= w; x += 10) c.lineTo(x, yb + Math.sin(x / (110 * u) + t * (.8 + L2 * .3) + L2) * amp);
+    c.lineTo(w, h); c.closePath();
+    c.fillStyle = night ? `rgba(60,110,160,${.25 + L2 * .1})` : `rgba(13,43,74,${.12 + L2 * .06})`;
+    c.fill();
   }
- 
-  // --- FAQ ---
-  const faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
-    question.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
-      faqItems.forEach(i => i.classList.remove('active'));
-      if (!isActive) { item.classList.add('active'); }
-    });
-  });
- 
-  // --- AUTENTICAÇÃO (LocalStorage) ---
-  let isLoginMode = true;
- 
-  function checkAuthSession() {
-    const activeUser = localStorage.getItem('farol_active_user');
-    const greeting = document.getElementById('userGreeting');
-    const authBtn = document.getElementById('authBtn');
-    if (activeUser) {
-      const user = JSON.parse(activeUser);
-      greeting.textContent = `Olá, ${user.name || user.email.split('@')[0]}`;
-      greeting.style.display = 'inline';
-      authBtn.textContent = 'Sair';
-      authBtn.onclick = logoutUser;
-    } else {
-      greeting.style.display = 'none';
-      authBtn.textContent = 'Entrar / Conta';
-      authBtn.onclick = openModal;
-    }
+}
+function frame(now) {
+  const t = (now - t0) / 1000;
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const p = max > 0 ? scrollY / max : 0;
+  scene(sx, W, H, t, theme === 'dark', p);
+  if (ctaBox.getBoundingClientRect().top < innerHeight) {
+    scene(px, PW, PH, t, true, .5);
   }
- 
-  function openModal() { document.getElementById('authModal').classList.add('open'); }
-  function closeModal() { document.getElementById('authModal').classList.remove('open'); }
- 
-  function toggleAuthMode() {
-    isLoginMode = !isLoginMode;
-    document.getElementById('modalTitle').textContent = isLoginMode ? 'Entrar na Conta' : 'Criar Nova Conta';
-    document.getElementById('modalSubtitle').textContent = isLoginMode ? 'Acesse seus dados e mantenha seu progresso salvo.' : 'Crie sua conta real com e-mail e senha.';
-    document.getElementById('authSubmitBtn').textContent = isLoginMode ? 'Entrar' : 'Cadastrar';
-    document.getElementById('nameGroup').style.display = isLoginMode ? 'none' : 'block';
-    document.getElementById('switchText').textContent = isLoginMode ? 'Não tem uma conta? Cadastre-se' : 'Já tem uma conta? Entre';
-  }
- 
-  function handleAuthSubmit(e) {
-    e.preventDefault();
-    const email = document.getElementById('authEmail').value.trim();
-    const password = document.getElementById('authPassword').value.trim();
-    const name = document.getElementById('authName').value.trim();
-    let users = JSON.parse(localStorage.getItem('farol_users') || '[]');
-    if (isLoginMode) {
-      const foundUser = users.find(u => u.email === email && u.password === password);
-      if (foundUser) {
-        localStorage.setItem('farol_active_user', JSON.stringify(foundUser));
-        closeModal();
-        checkAuthSession();
-      } else {
-        alert('E-mail ou senha incorretos. Verifique seus dados.');
-      }
-    } else {
-      if (users.some(u => u.email === email)) { alert('Este e-mail já está cadastrado.'); return; }
-      const newUser = { name: name || email.split('@')[0], email, password };
-      users.push(newUser);
-      localStorage.setItem('farol_users', JSON.stringify(users));
-      localStorage.setItem('farol_active_user', JSON.stringify(newUser));
-      closeModal();
-      checkAuthSession();
-    }
-  }
- 
-  function logoutUser() {
-    localStorage.removeItem('farol_active_user');
-    checkAuthSession();
-  }
- 
-  // --- ASSISTENTE IA (LUMEN) ---
-  function triggerSOS() {
-    document.getElementById('assistenteAI').scrollIntoView({ behavior: 'smooth' });
-    quickSendAI("🚨 SOS Impulsos: Estou sentindo uma urgência enorme e preciso de ajuda imediata!");
-  }
- 
-  function handleAIKey(e) { if (e.key === 'Enter') sendAIMessage(); }
- 
-  function quickSendAI(txt) {
-    document.getElementById('aiInput').value = txt;
-    sendAIMessage();
-  }
- 
-  function sendAIMessage() {
-    const input = document.getElementById('aiInput');
-    const text = input.value.trim();
-    if (!text) return;
-    appendAIMessage(text, 'user');
-    input.value = '';
-    setTimeout(() => {
-      const reply = getAIResponse(text);
-      appendAIMessage(reply, 'ai');
-    }, 600);
-  }
- 
-  function appendAIMessage(text, sender) {
-    const container = document.getElementById('aiMessages');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `message ${sender}`;
-    msgDiv.textContent = text;
-    container.appendChild(msgDiv);
-    container.scrollTop = container.scrollHeight;
-  }
- 
-  function getAIResponse(query) {
-    const q = query.toLowerCase();
-    if (q.includes('sos') || q.includes('urgente') || q.includes('vontade') || q.includes('celular') || q.includes('telas') || q.includes('vício')) {
-      return "⚠️ LUMEN — PROTOCOLO DE URGÊNCIA ATIVADO:\n\nO impulso mais forte costuma durar apenas entre 3 e 5 minutos. Siga estes passos:\n1. Afaste o celular ou gatilho imediatamente de suas mãos.\n2. Beba um copo de água bem gelada.\n3. Respire fundo inspirando em 4 segundos e soltando em 6.\n\nVocê está no controle. O que causou esse gatilho agora?";
-    }
-    if (q.includes('recaí') || q.includes('recaida') || q.includes('errei')) {
-      return "Não se culpe excessivamente. Uma recaída é apenas um sinal de que o gatilho foi mais forte do que a nossa estratégia naquele instante. O importante é levantar agora. O que aconteceu minutos antes de você ceder?";
-    }
-    if (q.includes('ansied') || q.includes('respira') || q.includes('acalm')) {
-      return "Vamos praticar a respiração consciente de aterramento:\n- Inspire profundamente pelo nariz contando até 4.\n- Segure o ar por 4 segundos.\n- Expire lentamente pela boca contando até 6.\n\nRepita isso 3 vezes enquanto relaxa os ombros.";
-    }
-    return `Entendi o que você trouxe ("${query}"). Como Lumen, seu assistente de apoio, estou aqui para te ouvir sem julgamentos e te ajudar a encontrar clareza prática. \n\nMe conte mais: qual seria o primeiro pequeno passo que poderíamos dar hoje para resolver isso?`;
-  }
- 
-  // --- TEMA CLARO / ESCURO ---
-  function toggleTheme() {
-    const root = document.documentElement;
-    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('farol_theme', next); } catch (e) {}
-  }
- 
-  checkAuthSession();
+  requestAnimationFrame(frame);
+}
+const t0 = performance.now();
+const pc = $('#paint'), px = pc.getContext('2d'), ctaBox = $('#cta');
+let PW, PH;
+function sizePaint() { PW = pc.width = pc.clientWidth * dpr; PH = pc.height = pc.clientHeight * dpr; }
+sizePaint(); addEventListener('resize', sizePaint);
+requestAnimationFrame(frame);
 </script>
- 
 </body>
 </html>
- 
